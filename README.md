@@ -84,7 +84,7 @@ InventoryItem – Tracks stock levels of each book. Interfaces with Cart and Ord
 
 Nate Osterfeld (Backend dev)
 
-Ben Wilhelm
+Ben Wilhelm UI
 
 Ethan Zins
 
