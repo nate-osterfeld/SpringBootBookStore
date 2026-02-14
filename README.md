@@ -88,7 +88,7 @@ Ben Wilhelm UI
 
 Ethan Zins
 
-Miles Cresci
+Miles Cresci (Frontend dev)
 
 ## Standup
 
