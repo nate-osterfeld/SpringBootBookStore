@@ -82,7 +82,7 @@ InventoryItem – Tracks stock levels of each book. Interfaces with Cart and Ord
 
 ## Team Members and Roles
 
-Nate Osterfeld (Backend dev)
+Nate Osterfeld (Product owner, Backend dev)
 
 Ben Wilhelm UI
 
