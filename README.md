@@ -66,17 +66,28 @@ InventoryItem – Tracks stock levels of each book. Interfaces with Cart and Ord
 
 ```json
 {
+  "title": "Book",
+  "description": "A book available in the store catalog",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer"
+    "bookId": {
+      "type": "string",
+      "description": "Unique identifier for the book"
+    },
     "title": {
-      "type": "string"
+      "type": "string",
+      "description": "Title of the book"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author of the book"
     },
     "price": {
-      "type": "decimal"
+      "type": "number",
+      "description": "Price of the book in USD"
     }
-  }
+  },
+  "required": ["bookId", "title", "author", "price"]
 }
 ```
 
