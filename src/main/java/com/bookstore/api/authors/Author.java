@@ -1,6 +1,7 @@
 package com.bookstore.api.authors;
 
 import com.bookstore.api.books.Book;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class Author {
     @Column(length = 2000)
     public String bio;
     public String authorImageUrl;
+    @JsonIgnore // ignore "books" on json return (infinite recursion)
     @OneToMany(mappedBy = "author")
     private List<Book> books;
 

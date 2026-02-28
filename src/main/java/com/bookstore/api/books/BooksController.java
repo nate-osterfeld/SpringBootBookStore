@@ -32,13 +32,13 @@ public class BooksController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createBook(@RequestBody Book book) {
+    public ResponseEntity<String> createBook(@RequestBody Book book) { // !! book only needs "id" field in "author" object
         booksService.createBook(book);
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody Book book) { // !! book only needs "id" field in "author" object
         var isUpdated = booksService.updateBook(id, book);
 
         if (!isUpdated) {
