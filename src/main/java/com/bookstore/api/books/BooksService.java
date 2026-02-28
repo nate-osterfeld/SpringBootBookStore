@@ -34,6 +34,7 @@ public class BooksService implements IBooksService {
         if (b.isPresent()) {
             b.get().setTitle(book.getTitle());
             b.get().setAuthor(book.getAuthor());
+            b.get().setDescription(book.getDescription());
             b.get().setGenre(book.getGenre());
             b.get().setPrice(book.getPrice());
             b.get().setQuantity(book.getQuantity());
