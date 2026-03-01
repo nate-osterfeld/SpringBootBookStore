@@ -16,12 +16,12 @@ public class AuthorsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Author>> findAll() {
+    public ResponseEntity<List<AuthorDto>> findAll() {
         return new ResponseEntity<>(authorsService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getBookById(@PathVariable Long id) {
+    public ResponseEntity<AuthorDto> getBookById(@PathVariable Long id) {
         var author = authorsService.getAuthorById(id);
 
         if (author == null) {
