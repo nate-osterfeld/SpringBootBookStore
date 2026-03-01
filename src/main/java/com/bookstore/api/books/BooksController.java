@@ -16,30 +16,29 @@ public class BooksController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> findAll() {
+    public ResponseEntity<List<BookDto>> findAll() {
         return new ResponseEntity<>(booksService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+    public ResponseEntity<BookDto> getBookById(@PathVariable Long id) {
         var book = booksService.getBookById(id);
 
-        if (book == null) {
+        if (book == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> createBook(@RequestBody Book book) { // !! book only needs "id" field in "author" object
-        booksService.createBook(book);
+    public ResponseEntity<String> createBook(@RequestBody BookDto bookDto) { // !! book only needs "id" field in "author" object
+        booksService.createBook(bookDto);
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody Book book) { // !! book only needs "id" field in "author" object
-        var isUpdated = booksService.updateBook(id, book);
+    public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) { // !! book only needs "id" field in "author" object
+        var isUpdated = booksService.updateBook(id, bookDto);
 
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
