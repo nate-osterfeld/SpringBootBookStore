@@ -1,9 +1,7 @@
 package com.bookstore.api.books;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.bookstore.api.authors.Author;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
@@ -13,16 +11,19 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public String title;
-    public String author;
+    public String description;
     public String genre;
     public BigDecimal price;
     public Integer quantity;
     public String coverImageUrl;
+    @ManyToOne
+    public Author author;
 
-    public Book(Long id, String title, String author, String genre, BigDecimal price, Integer quantity, String coverImageUrl) {
+    public Book(Long id, String title, Author author, String description, String genre, BigDecimal price, Integer quantity, String coverImageUrl) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.description = description;
         this.genre = genre;
         this.price = price;
         this.quantity = quantity;
@@ -49,13 +50,17 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 
     public String getGenre() {
         return genre;
