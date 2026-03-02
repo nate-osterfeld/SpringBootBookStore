@@ -7,14 +7,15 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "authors")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String name;
+    private Long id;
+    private String name;
     @Column(length = 2000)
-    public String bio;
-    public String authorImageUrl;
+    private String bio;
+    private String authorImageUrl;
     @JsonIgnore // ignore "books" on json return (infinite recursion)
     @OneToMany(mappedBy = "author")
     private List<Book> books;

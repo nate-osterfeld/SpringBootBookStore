@@ -4,6 +4,8 @@ import com.bookstore.authors.Author;
 import com.bookstore.authors.IAuthorsRepository;
 import com.bookstore.books.Book;
 import com.bookstore.books.IBooksRepository;
+import com.bookstore.users.IUsersRepository;
+import com.bookstore.users.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,19 +15,25 @@ import java.math.BigDecimal;
 public class DataLoader implements CommandLineRunner {
     private final IAuthorsRepository authorsRepository;
     private final IBooksRepository booksRepository;
+    private final IUsersRepository usersRepository;
 
-    public DataLoader(IAuthorsRepository authorsRepository, IBooksRepository booksRepository) {
+    public DataLoader(
+        IAuthorsRepository authorsRepository,
+        IBooksRepository booksRepository,
+        IUsersRepository usersRepository
+    ) {
         this.authorsRepository = authorsRepository;
         this.booksRepository = booksRepository;
+        this.usersRepository = usersRepository;
     }
 
     @Override
     public void run(String... args) {
         var author1 = new Author(
-                null,
-                "J.R.R. Tolkien",
-                "John Ronald Reuel Tolkien (1892–1973) was an English writer, philologist, and Oxford professor best known for creating the richly imagined Middle-earth legendarium, including The Hobbit and The Lord of the Rings, works that profoundly shaped modern fantasy literature.",
-                "https://collectionimages.npg.org.uk/large/mw56725/JRR-Tolkien.jpg"
+            null,
+            "J.R.R. Tolkien",
+            "John Ronald Reuel Tolkien (1892–1973) was an English writer, philologist, and Oxford professor best known for creating the richly imagined Middle-earth legendarium, including The Hobbit and The Lord of the Rings, works that profoundly shaped modern fantasy literature.",
+            "https://collectionimages.npg.org.uk/large/mw56725/JRR-Tolkien.jpg"
         );
 
         var author2 = new Author(
@@ -76,5 +84,27 @@ public class DataLoader implements CommandLineRunner {
         booksRepository.save(book1);
         booksRepository.save(book2);
         booksRepository.save(book3);
+
+        var user1 = new User(
+                null,
+                "john@gamil.com",
+                "123"
+        );
+
+        var user2 = new User(
+                null,
+                "james@gmail.com",
+                "456"
+        );
+
+        var user3 = new User(
+                null,
+                "timmy@gmail.com",
+                "789"
+        );
+
+        usersRepository.save(user1);
+        usersRepository.save(user2);
+        usersRepository.save(user3);
     }
 }

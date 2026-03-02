@@ -7,16 +7,17 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    public String title;
-    public String description;
-    public String genre;
-    public BigDecimal price;
-    public Integer quantity;
-    public String coverImageUrl;
+    private Long id;
+    private String title;
+    private String description;
+    private String genre;
+    private BigDecimal price;
+    private Integer quantity;
+    private String coverImageUrl;
     @JsonIgnore // ignore "author" on json return (infinite recursion)
     @ManyToOne
     public Author author;
