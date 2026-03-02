@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="14d60b9e-e231-4b43-83f2-9b777983a3c2" name="Changes" comment="Author DTO">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/BookstoreApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/authors/Author.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/authors/AuthorDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/authors/AuthorsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/authors/AuthorsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/authors/IAuthorsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/authors/IAuthorsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/books/Book.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/books/BookDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/books/BooksController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/books/BooksService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/books/IBooksRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/books/IBooksService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bookstore/api/config/DataLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bookstore/bookstore/BookstoreApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/book-and-author-dtos" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;nate-osterfeld&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nate-osterfeld/SpringBootBookStore.git&quot;,
+    &quot;accountId&quot;: &quot;665838e0-2e81-4982-aee6-cc4794384c1d&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="3A8aWQFD5lNYa66vNcpySvGJrWh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.BookstoreApiApplication (1).executor": "Run",
+    "Spring Boot.BookstoreApiApplication.executor": "Run",
+    "Spring Boot.BookstoreApplication (1).executor": "Run",
+    "Spring Boot.BookstoreApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.fileTypes",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="app" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="app" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BookstoreApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="bookstore" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="main.java.com.bookstore.BookstoreApiApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.com.bookstore.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.BookstoreApiApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="14d60b9e-e231-4b43-83f2-9b777983a3c2" name="Changes" comment="" />
+      <created>1771976682521</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1771976682521</updated>
+      <workItem from="1771976683730" duration="2000000" />
+      <workItem from="1771980354870" duration="2423000" />
+      <workItem from="1771988382554" duration="424000" />
+      <workItem from="1771988839403" duration="2287000" />
+      <workItem from="1772064385714" duration="6204000" />
+      <workItem from="1772306534061" duration="23519000" />
+      <workItem from="1772405437108" duration="3528000" />
+    </task>
+    <task id="LOCAL-00001" summary="Create Author entity&#10;Link Books to Authors table&#10;Create Author repository&#10;Load initial data">
+      <option name="closed" value="true" />
+      <created>1772313019320</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1772313019320</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add Author controller, service, repo">
+      <option name="closed" value="true" />
+      <created>1772318229408</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1772318229408</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add pull request template">
+      <option name="closed" value="true" />
+      <created>1772334659662</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1772334659662</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Simplify codeql.yml">
+      <option name="closed" value="true" />
+      <created>1772334961655</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1772334961655</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Merge branch 'main' into feature/add-author">
+      <option name="closed" value="true" />
+      <created>1772335618078</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1772335618078</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Book DTO">
+      <option name="closed" value="true" />
+      <created>1772345459253</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1772345459253</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Author DTO">
+      <option name="closed" value="true" />
+      <created>1772347697930</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1772347697930</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Create Author entity&#10;Link Books to Authors table&#10;Create Author repository&#10;Load initial data" />
+    <MESSAGE value="Add Author controller, service, repo" />
+    <MESSAGE value="Add pull request template" />
+    <MESSAGE value="Simplify codeql.yml" />
+    <MESSAGE value="Merge branch 'main' into feature/add-author" />
+    <MESSAGE value="Book DTO" />
+    <MESSAGE value="Author DTO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Author DTO" />
+  </component>
+</project>
