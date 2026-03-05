@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookstore</title>
+    <link rel="stylesheet" th:href="@{/books.css}">
+</head>
+<body>
+<h1>Books</h1>
+<div>
+    <th:block th:each="book : ${books}">
+        <div th:text="${book.title}"></div>
+    </th:block>
+</div>
+</body>
+</html>
