@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <title>Admin Panel</title>
+        <link rel="stylesheet" th:href="@{/admin/admin-layout.css}">
+    </head>
+    <body>
+        <div class="container" style="display:flex; min-height:93vh;">
+            <div class="sidebar">
+                <div class="sidebar-heading">Admin Dashboard</div>
+                <div class="sidebar-options">
+                    <div>
+                        <a href="/admin/authors">Authors</a>
+                    </div>
+                    <div>
+                        <a href="/admin/books">Books</a>
+                    </div>
+                </div>
+                <div class="logout">
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+            <!-- start fragment here -->
+            <div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
+            </div>
+        </div>
+    </body>
+</html>
