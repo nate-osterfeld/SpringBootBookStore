@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin-layout.html}">
+    <head>
+        <title>Manage Authors</title>
+        <link rel="stylesheet" th:href="@{/admin/manage-authors.css}">
+    </head>
+    <body>
+        <div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
+            <div class="banner">Bookstore Management</div>
+            <div class="breadcrumbs">Dashboard > <a href="/admin/authors">Manage Authors</a></div>
+            <div class="manage-container">
+                <div class="manage-heading">
+                    <div class="manage-title">Manage Authors</div>
+
+                    <a href="/admin/authors/add-author">
+                        <div class="btn-add-author">+ Add Author</div>
+                    </a>
+                </div>
+
+                <!-- table -->
+                <div class="table-container">
+                    <table class="author-table">
+                        <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Books</th>
+                            <th>Bio</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="author : ${authors}">
+                            <td class="photo-cell">
+                                <img th:src="${author.authorImageUrl.startsWith('/uploads/authors')
+                                                 ? 'http://localhost:5000' + author.authorImageUrl
+                                                 : author.authorImageUrl}"
+                                     alt="Author Image" />
+                            </td>
+                            <td class="name-cell">
+                                <a th:href="@{/admin/authors/{id}(id=${author.id})}"
+                                   th:text="${author.name}">Author Name</a>
+                            </td>
+                            <td class="books-cell">
+                                <div th:each="book : ${author.books}"
+                                     th:text="${book.title}">
+                                    Book Title
+                                </div>
+                            </td>
+                            <td class="bio-cell">
+                                <div th:text="${author.bio}">
+                                    Bio
+                                </div>
+                            </td>
+                            <td class="actions-cell">
+                                <a th:href="@{/admin/authors/edit-author/{id}(id=${author.id})}">
+                                    <button class="edit-btn">✏ Edit</button>
+                                </a>
+
+                                <a th:href="@{/admin/authors/delete/{id}(id=${author.id})}">
+                                    <button class="delete-btn">🗑</button>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <button>&lt; Prev</button>
+                        <button class="active">1</button>
+                        <button disabled>Next</button>
+
+                        <span class="page-info">Page 1 of 1</span>
+                        <button disabled>Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin-layout.html}">
+<head>
+    <title>Edit Author</title>
+    <link rel="stylesheet" th:href="@{/admin/edit-author.css}" />
+</head>
+<body>
+<div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
+    <div class="banner">Bookstore Management</div>
+    <div class="breadcrumbs">
+        Dashboard > <a href="/admin/authors">Manage Authors</a> > <a href="/admin/authors/edit-author/id">Edit Author</a>
+    </div>
+    <div class="manage-container">
+        <div class="manage-heading">
+            <div class="manage-title">Edit Author</div>
+        </div>
+
+        <!-- form -->
+        <div class="form-container">
+            <form
+                th:action="@{/admin/authors/edit-author/{id}(id=${author.id})}"
+                method="post"
+                enctype="multipart/form-data"
+                th:object="${author}"
+            >
+                <div style="display: flex; align-items: end; gap: 4rem">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input
+                                type="text"
+                                id="name"
+                                th:field="*{name}"
+                                placeholder="Author name"
+                                required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <img
+                            id="authorPreview"
+                            th:src="${author.authorImageUrl.startsWith('/uploads/authors')
+                                         ? 'http://localhost:5000' + author.authorImageUrl
+                                         : author.authorImageUrl}"
+                             alt="Author Image" />
+                        <label for="authorImage">Author Image</label>
+                        <input type="file" id="authorImage" name="authorImage" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea
+                            id="bio"
+                            th:field="*{bio}"
+                            rows="5"
+                            placeholder="Author biography"
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">
+                        Save Author
+                    </button>
+                    <a th:href="@{/admin/authors}" class="btn-cancel">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    const fileInput = document.getElementById("authorImage");
+    const preview = document.getElementById("authorPreview");
+
+    fileInput.addEventListener("change", function () {
+        preview.src = URL.createObjectURL(this.files[0]);
+    });
+</script>

@@ -1,9 +1,12 @@
 package com.bookstore.authors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -32,14 +35,23 @@ public class AuthorsController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createAuthor(@RequestBody Author author) {
-        authorsService.createAuthor(author);
+    public ResponseEntity<String> createAuthor(
+        @RequestPart("author") String authorJson,
+        @RequestPart("authorImage") MultipartFile imageFile) throws IOException
+    {
+        Author author = new ObjectMapper().readValue(authorJson, Author.class);
+        authorsService.createAuthor(author, imageFile);
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAuthor(@PathVariable Long id, @RequestBody Author author) {
-        var isUpdated = authorsService.updateAuthor(id, author);
+    public ResponseEntity<String> updateAuthor(
+            @PathVariable Long id,
+            @RequestPart("author") String authorJson,
+            @RequestPart("authorImage") MultipartFile imageFile) throws IOException
+    {
+        Author author = new ObjectMapper().readValue(authorJson, Author.class);
+        var isUpdated = authorsService.updateAuthor(id, author, imageFile);
 
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -50,7 +62,6 @@ public class AuthorsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAuthor(@PathVariable Long id) {
-        // TODO: If author has books, cannot delete...
         // TODO: Change referential integrity to cascade delete or return "Cannot delete author with existing books"
 
         var isDeleted = authorsService.deleteAuthor(id);
