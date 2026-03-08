@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin-layout.html}">
+    <head>
+        <title>Manage Books</title>
+        <link rel="stylesheet" th:href="@{/admin/books/manage-books.css}">
+    </head>
+    <body>
+        <div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
+            <div class="banner">Bookstore Management</div>
+            <div class="breadcrumbs">Dashboard > <a href="/admin/books">Manage Books</a></div>
+            <div class="manage-container">
+                <div class="manage-heading">
+                    <div class="manage-title">Manage Books</div>
+
+                    <a href="/admin/books/add-book">
+                        <div class="btn-add-book">+ Add Book</div>
+                    </a>
+                </div>
+
+                <!-- table -->
+                <div class="table-container">
+                    <table class="book-table">
+                        <thead>
+                        <tr>
+                            <th>Cover</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Genre</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${books}">
+                            <td class="cover-cell">
+                                <img th:src="${book.coverImageUrl.startsWith('/uploads/books')
+                                                 ? 'http://localhost:5000' + book.coverImageUrl
+                                                 : book.coverImageUrl}"
+                                     alt="Book Cover Image" />
+                            </td>
+                            <td class="title-cell">
+                                <a th:href="@{/books/{id}(id=${book.id})}"
+                                   th:text="${book.title}">Book Title</a>
+                            </td>
+                            <td class="author-cell">
+                                <a th:href="@{/authors/{id}(id=${book.authorId})}"
+                                    th:text="${book.authorName}">
+                                    Book Author
+                                </a>
+                            </td>
+                            <td class="genre-cell">
+                                <div th:text="${book.genre}">
+                                    Genre
+                                </div>
+                            </td>
+                            <td class="price-cell">
+                                <div th:text="${book.price}">
+                                    Bio
+                                </div>
+                            </td>
+                            <td class="quantity-cell">
+                                <div th:text="${book.quantity}">
+                                    Bio
+                                </div>
+                            </td>
+                            <td class="actions-cell">
+                                <a th:href="@{/admin/books/edit-book/{id}(id=${book.id})}">
+                                    <button class="edit-btn">✏ Edit</button>
+                                </a>
+
+                                <a th:href="@{/admin/books/delete/{id}(id=${book.id})}">
+                                    <button class="delete-btn">🗑</button>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <button>&lt; Prev</button>
+                        <button class="active">1</button>
+                        <button disabled>Next</button>
+
+                        <span class="page-info">Page 1 of 1</span>
+                        <button disabled>Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

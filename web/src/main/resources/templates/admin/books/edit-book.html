@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin-layout.html}">
+<head>
+    <title>Add Books</title>
+    <link rel="stylesheet" th:href="@{/admin/books/edit-book.css}">
+</head>
+    <body>
+        <!-- start fragment here -->
+        <div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
+            <div class="banner">Bookstore Management</div>
+            <div class="breadcrumbs">
+                Dashboard > <a href="/admin/books">Manage Books</a> > <a href="/admin/books/edit-book">Edit Book</a>
+            </div>
+            <div class="manage-container">
+                <div class="manage-heading">
+                    <div class="manage-title">Edit Book</div>
+                </div>
+
+                <!-- form -->
+                <div class="form-container">
+                    <form
+                        th:action="@{/admin/books/edit-book/{id}(id=${book.id})}"
+                        method="post"
+                        enctype="multipart/form-data"
+                        th:object="${book}"
+                    >
+                        <div style="display: flex; gap: 5vw;">
+                            <div style="width: 30vw;">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        th:field="*{title}"
+                                        placeholder="Book title"
+                                        required
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="authorId">Author</label>
+                                    <select id="authorId" th:field="*{authorId}" required>
+                                        <option value="">Select an author</option>
+                                        <option
+                                            th:each="author : ${authors}"
+                                            th:value="${author.id}"
+                                            th:text="${author.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bio">Description</label>
+                                    <textarea
+                                        id="bio"
+                                        th:field="*{description}"
+                                        rows="5"
+                                        placeholder="Book Synopsis"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div style="width: 15vw;">
+                                <div class="form-group">
+                                    <label for="genre">Genre</label>
+                                    <input
+                                        type="text"
+                                        id="genre"
+                                        th:field="*{genre}"
+                                        placeholder="Genre name"
+                                        required
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <div class="price-wrapper">
+                                        <span class="currency">$</span>
+                                        <input
+                                            type="number"
+                                            id="price"
+                                            th:field="*{price}"
+                                            step="0.01"
+                                            min="0"
+                                            inputmode="decimal"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        th:field="*{quantity}"
+                                        placeholder="1"
+                                        min="1"
+                                        step="1"
+                                        required
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <img
+                                        id="bookPreview"
+                                        th:src="${book.coverImageUrl.startsWith('/uploads/books')
+                                             ? 'http://localhost:5000' + book.coverImageUrl
+                                             : book.coverImageUrl}"
+                                        alt="Cover Image" />
+                                    <label for="coverImage">Cover Image</label>
+                                    <input type="file" id="coverImage" name="coverImage" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save">
+                                Save Book
+                            </button>
+                            <a th:href="@{/admin/books}" class="btn-cancel">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    const fileInput = document.getElementById("coverImage");
+    const preview = document.getElementById("bookPreview");
+
+    fileInput.addEventListener("change", function () {
+        preview.src = URL.createObjectURL(this.files[0]);
+    });
+</script>
