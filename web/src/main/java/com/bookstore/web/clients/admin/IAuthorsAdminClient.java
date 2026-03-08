@@ -10,6 +10,7 @@ import java.util.List;
 
 @FeignClient(
     name="AUTHORS-SERVICE",
+    contextId="authorsAdminClient",
     url="http://localhost:5000/api/authors",
     configuration = FeignMultipartConfig.class
 )

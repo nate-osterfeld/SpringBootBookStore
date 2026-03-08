@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FeignMultipartConfig {
-
+    // Send encoding type multipart/form-data
     @Bean
     public Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
         return new SpringFormEncoder(new SpringEncoder(converters));

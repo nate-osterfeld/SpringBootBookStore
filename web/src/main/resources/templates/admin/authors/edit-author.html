@@ -4,7 +4,7 @@
       layout:decorate="~{layout/admin-layout.html}">
 <head>
     <title>Edit Author</title>
-    <link rel="stylesheet" th:href="@{/admin/edit-author.css}" />
+    <link rel="stylesheet" th:href="@{/admin/authors/edit-author.css}" />
 </head>
 <body>
 <div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
@@ -40,11 +40,11 @@
                         <img
                             id="authorPreview"
                             th:src="${author.authorImageUrl.startsWith('/uploads/authors')
-                                         ? 'http://localhost:5000' + author.authorImageUrl
-                                         : author.authorImageUrl}"
+                                 ? 'http://localhost:5000' + author.authorImageUrl
+                                 : author.authorImageUrl}"
                              alt="Author Image" />
                         <label for="authorImage">Author Image</label>
-                        <input type="file" id="authorImage" name="authorImage" accept="image/*" required>
+                        <input type="file" id="authorImage" name="authorImage" accept="image/*">
                     </div>
                 </div>
                 <div class="form-group">

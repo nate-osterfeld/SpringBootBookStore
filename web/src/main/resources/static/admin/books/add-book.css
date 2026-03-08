@@ -1,0 +1,98 @@
+.manage-container {
+    padding: 3rem;
+}
+
+.manage-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.manage-title {
+    font-size: 2.5rem;
+    color: #173e5f;
+    display: flex;
+    align-items: center;
+}
+
+/* form */
+.form-container {
+}
+
+.form-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #2f3f60;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cfcfcf;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.form-group select {
+    width: 35%;
+    height: 39.5px;
+    background: white;
+    border: 1px solid #cfcfcf;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.form-group textarea {
+    min-height: 20vh;
+}
+
+.form-actions {
+    margin-top: 25px;
+}
+
+.btn-save {
+    background: #173e5f;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background: #326086;
+}
+
+.btn-cancel {
+    background: #ddd;
+    padding: 10px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.price-wrapper {
+    position: relative;
+}
+
+.currency {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #666;
+    font-size: 14px;
+}

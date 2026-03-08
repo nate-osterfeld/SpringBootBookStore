@@ -73,30 +73,34 @@ public class AuthorsService implements IAuthorsService {
     @Override
     public Boolean updateAuthor(Long id, Author author, MultipartFile imageFile) throws IOException {
         Optional<Author> a = authorsRepository.findById(id);
+
         if (a.isEmpty()) { return false; }
-        if (imageFile.isEmpty()) { return false; }
 
-        // Get original filename and make it safe
-        String originalFilename = imageFile.getOriginalFilename();
-        if (originalFilename == null) originalFilename = "image";
+        // If new image is provided, update it (otherwise keep existing)
+        if (!imageFile.isEmpty()) {
+            // Get original filename and make it safe
+            String requestedFileName = imageFile.getOriginalFilename();
+            if (requestedFileName == null) requestedFileName = "image";
 
-        // Replace spaces and special chars
-        String safeFilename = originalFilename.replaceAll("[^a-zA-Z0-9.\\-_]", "_");
+            // Replace spaces and special chars
+            String safeFilename = requestedFileName.replaceAll("[^a-zA-Z0-9.\\-_]", "_");
 
-        // Add UUID prefix to avoid collisions
-        String filename = UUID.randomUUID() + "_" + safeFilename;
+            // Add UUID prefix to avoid collisions
+            String filename = UUID.randomUUID() + "_" + safeFilename;
 
-        // Build absolute upload path relative to project root
-        Path uploadPath = Paths.get(System.getProperty("user.dir"), "uploads", "authors", filename);
+            // Build absolute upload path relative to project root
+            Path uploadPath = Paths.get(System.getProperty("user.dir"), "uploads", "authors", filename);
 
-        // Create parent directories if they don't exist
-        Files.createDirectories(uploadPath.getParent());
+            // Create parent directories if they don't exist
+            Files.createDirectories(uploadPath.getParent());
 
-        // Save file to disk
-        imageFile.transferTo(uploadPath.toFile());
+            // Save file to disk
+            imageFile.transferTo(uploadPath.toFile());
 
-        // Store path/URL in entity for DB
-        a.get().setAuthorImageUrl("/uploads/authors/" + filename);
+            // Store path/URL
+            a.get().setAuthorImageUrl("/uploads/authors/" + filename);
+        }
+
         a.get().setName(author.getName());
         a.get().setBio(author.getBio());
 
@@ -126,4 +130,7 @@ public class AuthorsService implements IAuthorsService {
 
         return authorDto;
     }
+
+    // No need for `convertToAuthor` at the moment
+    // Not currently accepting dto for create/update
 }

@@ -1,0 +1,115 @@
+.manage-container {
+    padding: 3rem 3rem 0 3rem;
+}
+
+.manage-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.manage-title {
+    font-size: 2.5rem;
+    color: #173e5f;
+    display: flex;
+    align-items: center;
+}
+
+.btn-add-book {
+    align-items: center;
+    background: #173e5f;
+    color: white;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    height: 0;
+    display: flex;
+    letter-spacing: 2px;
+}
+
+.btn-add-book:hover {
+    background: #326086;
+}
+
+/* Table */
+.table-container {
+    background: #f8f8f8;
+    padding: 15px;
+    border: 1px solid #ddd;
+    max-height: 66vh;
+    overflow: scroll;
+}
+
+.book-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.book-table th,
+.book-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    max-width: 120px;
+}
+
+.book-table th {
+    background: #f0f0f0;
+}
+
+th.actions-col {
+    min-width: 120px;
+}
+
+.cover-cell img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+}
+
+.title-cell a,
+.author-cell a {
+    font-weight: bold;
+    color: #2c4b7c;
+    text-decoration: none;
+}
+
+.books-cell div {
+    color: #2c4b7c;
+}
+
+.genre-cell div,
+.price-cell div,
+.quantity-cell div {
+    max-width: 520px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-btn {
+    background: #326086;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #a94442;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-info {
+    margin-left: auto;
+}

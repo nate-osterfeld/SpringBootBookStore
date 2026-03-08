@@ -61,7 +61,7 @@ public class DataLoader implements CommandLineRunner {
                 "Fantasy",
                 new BigDecimal("14.99"),
                 3,
-                "https://example.com/covers/the-hobbit.jpg"
+                "https://m.media-amazon.com/images/I/712cDO7d73L._AC_UF1000,1000_QL80_.jpg"
         );
 
         var book2 = new Book(
@@ -69,7 +69,7 @@ public class DataLoader implements CommandLineRunner {
                 "Classic",
                 new BigDecimal("12.50"),
                 5,
-                "https://example.com/covers/to-kill-a-mockingbird.jpg"
+                "https://m.media-amazon.com/images/I/51lVvSDLQJL._AC_UF1000,1000_QL80_.jpg"
         );
 
         var book3 = new Book(
@@ -78,7 +78,7 @@ public class DataLoader implements CommandLineRunner {
                 author3,
                 "In a dystopian surveillance state, one man struggles against a totalitarian regime that controls truth and individuality.",
                 "Dystopian",
-                new BigDecimal("15.00"), 8, "https://example.com/covers/1984.jpg"
+                new BigDecimal("15.00"), 8, "https://www.magicmurals.com/media/catalog/product/cache/af1e2a1566fa2dbb552605e8822354b7/a/d/adg-0000001048_1.jpg"
         );
 
         booksRepository.save(book1);

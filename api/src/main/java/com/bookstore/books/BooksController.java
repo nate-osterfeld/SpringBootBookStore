@@ -1,9 +1,12 @@
 package com.bookstore.books;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,14 +34,24 @@ public class BooksController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createBook(@RequestBody BookDto bookDto) { // !! book only needs "id" field in "author" object
-        booksService.createBook(bookDto);
+    public ResponseEntity<String> createBook(
+        @RequestPart("book") String bookJson,
+        @RequestPart("coverImage") MultipartFile imageFile) throws IOException
+    {
+        BookDto book = new ObjectMapper().readValue(bookJson, BookDto.class);
+
+        booksService.createBook(book, imageFile);
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto) { // !! book only needs "id" field in "author" object
-        var isUpdated = booksService.updateBook(id, bookDto);
+    public ResponseEntity<String> updateBook(
+            @PathVariable Long id,
+            @RequestPart("book") String bookJson,
+            @RequestPart("coverImage") MultipartFile imageFile) throws IOException
+    {
+        BookDto bookDto = new ObjectMapper().readValue(bookJson, BookDto.class);
+        var isUpdated = booksService.updateBook(id, bookDto, imageFile);
 
         if (!isUpdated) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
