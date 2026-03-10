@@ -41,7 +41,18 @@ public class FileUploadService {
         String safeFilename = originalFilename.replaceAll("[^a-zA-Z0-9.\\-_]", "_");
         String filename = UUID.randomUUID() + "_" + safeFilename;
 
-        Path uploadPath = Paths.get(System.getProperty("user.dir"), "uploads", subdirectory, filename);
+        // Base uploads directory (trusted)
+        Path baseUploadDir = Paths.get(System.getProperty("user.dir"), "uploads").normalize().toAbsolutePath();
+
+        // Resolve the subdirectory and filename against the base directory
+        Path targetDir = baseUploadDir.resolve(subdirectory).normalize().toAbsolutePath();
+        Path uploadPath = targetDir.resolve(filename).normalize().toAbsolutePath();
+
+        // Ensure the final path is still within the base uploads directory to prevent path traversal
+        if (!uploadPath.startsWith(baseUploadDir)) {
+            throw new IOException("Invalid upload path");
+        }
+
         Files.createDirectories(uploadPath.getParent());
         imageFile.transferTo(uploadPath.toFile());
 
