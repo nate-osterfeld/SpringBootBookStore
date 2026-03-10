@@ -84,20 +84,32 @@ public class BooksService implements IBooksService {
         var bookDto = new BookDto();
 
         bookDto.setId(book.getId());
-        bookDto.setTitle((book.getTitle()));
+        bookDto.setTitle(book.getTitle());
         bookDto.setDescription(book.getDescription());
         bookDto.setGenre(book.getGenre());
         bookDto.setPrice(book.getPrice());
         bookDto.setQuantity(book.getQuantity());
         bookDto.setCoverImageUrl(book.getCoverImageUrl());
-        bookDto.setAuthorName(book.getAuthor().getName());
-        bookDto.setAuthorId(book.getAuthor().getId());
+
+        Author author = book.getAuthor();
+        if (author != null) {
+            bookDto.setAuthorName(author.getName());
+            bookDto.setAuthorId(author.getId());
+        } else {
+            bookDto.setAuthorName("Unknown Author");
+            bookDto.setAuthorId(null);
+        }
 
         return bookDto;
     }
 
     public Book convertToBook(BookDto bookDto, Book book) {
-        var author = authorsRepository.findById(bookDto.getAuthorId());
+        if (bookDto.getAuthorId() == null) {
+            throw new IllegalArgumentException("Author ID must not be null when creating or updating a book.");
+        }
+
+        Author author = authorsRepository.findById(bookDto.getAuthorId())
+                .orElseThrow(() -> new IllegalArgumentException("Author not found with ID: " + bookDto.getAuthorId()));
 
         book.setTitle(bookDto.getTitle());
         book.setDescription(bookDto.getDescription());
@@ -105,7 +117,7 @@ public class BooksService implements IBooksService {
         book.setPrice(bookDto.getPrice());
         book.setQuantity(bookDto.getQuantity());
         book.setCoverImageUrl(bookDto.getCoverImageUrl());
-        book.setAuthor(author.orElse(null));
+        book.setAuthor(author);
 
         return book;
     }
