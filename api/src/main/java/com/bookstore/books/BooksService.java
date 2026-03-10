@@ -2,26 +2,25 @@ package com.bookstore.books;
 
 import com.bookstore.authors.Author;
 import com.bookstore.authors.IAuthorsRepository;
+import com.bookstore.config.FileUploadService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class BooksService implements IBooksService {
     IBooksRepository booksRepository;
     IAuthorsRepository authorsRepository;
+    FileUploadService fileUploadService;
 
-    public BooksService(IBooksRepository booksRepository, IAuthorsRepository authorsRepository) {
+    public BooksService(IBooksRepository booksRepository, IAuthorsRepository authorsRepository, FileUploadService fileUploadService) {
         this.booksRepository = booksRepository;
         this.authorsRepository = authorsRepository;
+        this.fileUploadService = fileUploadService;
     }
 
     @Override
@@ -43,28 +42,9 @@ public class BooksService implements IBooksService {
 
     @Override
     public void createBook(BookDto bookdto, MultipartFile imageFile) throws IOException {
-        if (!imageFile.isEmpty()) {
-            // Get original filename and make it safe
-            String originalFilename = imageFile.getOriginalFilename();
-            if (originalFilename == null) originalFilename = "image";
-
-            // Replace spaces and special chars
-            String safeFilename = originalFilename.replaceAll("[^a-zA-Z0-9.\\-_]", "_");
-
-            // Add UUID prefix to avoid collisions
-            String filename = UUID.randomUUID() + "_" + safeFilename;
-
-            // Build absolute upload path relative to project root
-            Path uploadPath = Paths.get(System.getProperty("user.dir"), "uploads", "books", filename);
-
-            // Create parent directories if they don't exist
-            Files.createDirectories(uploadPath.getParent());
-
-            // Save file to disk
-            imageFile.transferTo(uploadPath.toFile());
-
-            // Store path/URL in entity for DB
-            bookdto.setCoverImageUrl("/uploads/books/" + filename);
+        String uploadedUrl = fileUploadService.saveUploadedFile(imageFile, "books");
+        if (uploadedUrl != null) {
+            bookdto.setCoverImageUrl(uploadedUrl);
         }
 
         var book = convertToBook(bookdto, new Book());
@@ -78,35 +58,14 @@ public class BooksService implements IBooksService {
 
         if (a.isEmpty() || b.isEmpty()) { return false; }
 
-        // If new image isn't provided, keep existing
-        if (imageFile.isEmpty()) {
-            bookDto.setCoverImageUrl(b.get().getCoverImageUrl());
+        String uploadedUrl = fileUploadService.saveUploadedFile(imageFile, "books");
+        if (uploadedUrl != null) {
+            bookDto.setCoverImageUrl(uploadedUrl);
         } else {
-            // Get requested file name
-            String requestedFilename = imageFile.getOriginalFilename();
-            if (requestedFilename == null) requestedFilename = "image";
-
-            // Replace spaces and special chars
-            String safeFilename = requestedFilename.replaceAll("[^a-zA-Z0-9.\\-_]", "_");
-
-            // Add UUID prefix to avoid collisions
-            String filename = UUID.randomUUID() + "_" + safeFilename;
-
-            // Build absolute upload path relative to project root
-            Path uploadPath = Paths.get(System.getProperty("user.dir"), "uploads", "books", filename);
-
-            // Create parent directories if they don't exist
-            Files.createDirectories(uploadPath.getParent());
-
-            // Save file to disk
-            imageFile.transferTo(uploadPath.toFile());
-
-            // Set path/URL
-            bookDto.setCoverImageUrl("/uploads/books/" + filename);
+            bookDto.setCoverImageUrl(b.get().getCoverImageUrl());
         }
 
         var book = convertToBook(bookDto, b.get());
-
         booksRepository.save(book);
 
         return true;
@@ -125,20 +84,32 @@ public class BooksService implements IBooksService {
         var bookDto = new BookDto();
 
         bookDto.setId(book.getId());
-        bookDto.setTitle((book.getTitle()));
+        bookDto.setTitle(book.getTitle());
         bookDto.setDescription(book.getDescription());
         bookDto.setGenre(book.getGenre());
         bookDto.setPrice(book.getPrice());
         bookDto.setQuantity(book.getQuantity());
         bookDto.setCoverImageUrl(book.getCoverImageUrl());
-        bookDto.setAuthorName(book.getAuthor().getName());
-        bookDto.setAuthorId(book.getAuthor().getId());
+
+        Author author = book.getAuthor();
+        if (author != null) {
+            bookDto.setAuthorName(author.getName());
+            bookDto.setAuthorId(author.getId());
+        } else {
+            bookDto.setAuthorName("Unknown Author");
+            bookDto.setAuthorId(null);
+        }
 
         return bookDto;
     }
 
     public Book convertToBook(BookDto bookDto, Book book) {
-        var author = authorsRepository.findById(bookDto.getAuthorId());
+        if (bookDto.getAuthorId() == null) {
+            throw new IllegalArgumentException("Author ID must not be null when creating or updating a book.");
+        }
+
+        Author author = authorsRepository.findById(bookDto.getAuthorId())
+                .orElseThrow(() -> new IllegalArgumentException("Author not found with ID: " + bookDto.getAuthorId()));
 
         book.setTitle(bookDto.getTitle());
         book.setDescription(bookDto.getDescription());
@@ -146,7 +117,7 @@ public class BooksService implements IBooksService {
         book.setPrice(bookDto.getPrice());
         book.setQuantity(bookDto.getQuantity());
         book.setCoverImageUrl(bookDto.getCoverImageUrl());
-        book.setAuthor(author.orElse(null));
+        book.setAuthor(author);
 
         return book;
     }
