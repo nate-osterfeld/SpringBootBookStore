@@ -4,6 +4,8 @@
 
 The Book Store Microservices Project allows users to browse available books, manage their shopping cart, and place orders through a set of independently running services. Each service handles a specific responsibility such as catalog management, inventory tracking, user accounts, or order processing and communicates through RESTful endpoints. The system is designed to be scalable, modular, and easy to extend. Users can interact with the application through the exposed APIs, a UI layer, or both.
 
+See the [Development Setup Guide](docs/setup.md) for instructions on how to run the project locally.
+
 ## Storyboard
 
 [book-store-storyboard.png](https://postimg.cc/R6GqSxRM)
