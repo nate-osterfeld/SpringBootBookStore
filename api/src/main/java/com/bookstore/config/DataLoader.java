@@ -1,12 +1,13 @@
 package com.bookstore.config;
 
+import com.bookstore.auth.IUsersRepository;
+import com.bookstore.auth.User;
 import com.bookstore.authors.Author;
 import com.bookstore.authors.IAuthorsRepository;
 import com.bookstore.books.Book;
 import com.bookstore.books.IBooksRepository;
-import com.bookstore.users.IUsersRepository;
-import com.bookstore.users.User;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,15 +17,18 @@ public class DataLoader implements CommandLineRunner {
     private final IAuthorsRepository authorsRepository;
     private final IBooksRepository booksRepository;
     private final IUsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DataLoader(
         IAuthorsRepository authorsRepository,
         IBooksRepository booksRepository,
-        IUsersRepository usersRepository
+        IUsersRepository usersRepository,
+        PasswordEncoder passwordEncoder
     ) {
         this.authorsRepository = authorsRepository;
         this.booksRepository = booksRepository;
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -86,21 +90,24 @@ public class DataLoader implements CommandLineRunner {
         booksRepository.save(book3);
 
         var user1 = new User(
-                null,
-                "john@gamil.com",
-                "123"
+            null,
+            "admin",
+            passwordEncoder.encode("password"),
+            "ADMIN"
         );
 
         var user2 = new User(
-                null,
-                "james@gmail.com",
-                "456"
+            null,
+            "user2",
+            passwordEncoder.encode("password"),
+            "USER"
         );
 
         var user3 = new User(
-                null,
-                "timmy@gmail.com",
-                "789"
+            null,
+            "user3",
+            passwordEncoder.encode("password"),
+            "USER"
         );
 
         usersRepository.save(user1);
