@@ -54,13 +54,13 @@ public class DataLoader implements CommandLineRunner {
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/George_Orwell_press_photo.jpg/960px-George_Orwell_press_photo.jpg"
         );
 
-        authorsRepository.save(author1);
-        authorsRepository.save(author2);
-        authorsRepository.save(author3);
+        author1 = authorsRepository.save(author1);
+        author2 = authorsRepository.save(author2);
+        author3 = authorsRepository.save(author3);
 
         var book1 = new Book(
                 null,
-                "The Hobbit", author1,
+                "The Hobbit", author1.getId(),
                 "A reluctant hobbit named Bilbo Baggins is swept into an adventurous quest to help dwarves reclaim their stolen homeland.",
                 "Fantasy",
                 new BigDecimal("14.99"),
@@ -69,7 +69,7 @@ public class DataLoader implements CommandLineRunner {
         );
 
         var book2 = new Book(
-                null, "To Kill a Mockingbird", author2, "A young girl in the racially divided American South witnesses injustice and compassion as her father defends an innocent Black man.",
+                null, "To Kill a Mockingbird", author2.getId(), "A young girl in the racially divided American South witnesses injustice and compassion as her father defends an innocent Black man.",
                 "Classic",
                 new BigDecimal("12.50"),
                 5,
@@ -79,7 +79,7 @@ public class DataLoader implements CommandLineRunner {
         var book3 = new Book(
                 null,
                 "1984",
-                author3,
+                author3.getId(),
                 "In a dystopian surveillance state, one man struggles against a totalitarian regime that controls truth and individuality.",
                 "Dystopian",
                 new BigDecimal("15.00"), 8, "https://www.magicmurals.com/media/catalog/product/cache/af1e2a1566fa2dbb552605e8822354b7/a/d/adg-0000001048_1.jpg"

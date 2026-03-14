@@ -2,13 +2,15 @@ package com.bookstore.auth.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
 public class JwtService {
-    private final String SECRET_KEY = "my-super-secret-key-my-super-secret-key-my-super-secret-key";
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
     public String generateToken(Long userId, String username) {
         return Jwts.builder()
