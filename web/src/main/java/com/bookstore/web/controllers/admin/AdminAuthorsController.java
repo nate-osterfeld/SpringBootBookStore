@@ -15,9 +15,11 @@ import java.util.List;
 @RequestMapping("/admin/authors")
 public class AdminAuthorsController {
     private final IAuthorsAdminClient authorsAdminClient;
+    private final ObjectMapper objectMapper;
 
-    public AdminAuthorsController(IAuthorsAdminClient authorsAdminClient) {
+    public AdminAuthorsController(IAuthorsAdminClient authorsAdminClient, ObjectMapper objectMapper) {
         this.authorsAdminClient = authorsAdminClient;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -39,11 +41,8 @@ public class AdminAuthorsController {
     public String addAuthor(
         @ModelAttribute Author author,
         @RequestParam("authorImage") MultipartFile imageFile) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String authorJson = mapper.writeValueAsString(author);
-
+        String authorJson = objectMapper.writeValueAsString(author);
         authorsAdminClient.createAuthor(authorJson, imageFile);
-
         return "redirect:/admin/authors";
     }
 
@@ -60,11 +59,8 @@ public class AdminAuthorsController {
         @PathVariable Long id,
         @ModelAttribute Author author,
         @RequestParam("authorImage") MultipartFile imageFile) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String authorJson = mapper.writeValueAsString(author);
-
+        String authorJson = objectMapper.writeValueAsString(author);
         authorsAdminClient.editAuthor(id, authorJson, imageFile);
-
         return "redirect:/admin/authors";
     }
 
