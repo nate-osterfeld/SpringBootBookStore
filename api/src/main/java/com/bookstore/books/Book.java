@@ -1,11 +1,15 @@
 package com.bookstore.books;
 
-import com.bookstore.authors.Author;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "books")
 public class Book {
@@ -13,88 +17,10 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private Long authorId;
     private String description;
     private String genre;
     private BigDecimal price;
     private Integer quantity;
     private String coverImageUrl;
-    @JsonIgnore // ignore "author" on json return (infinite recursion)
-    @ManyToOne
-    private Author author;
-
-    public Book(Long id, String title, Author author, String description, String genre, BigDecimal price, Integer quantity, String coverImageUrl) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.genre = genre;
-        this.price = price;
-        this.quantity = quantity;
-        this.coverImageUrl = coverImageUrl;
-    }
-
-    public Book() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    public String getDescription() { return description; }
-
-    public void setDescription(String description) { this.description = description; }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getCoverImageUrl() {
-        return coverImageUrl;
-    }
-
-    public void setCoverImageUrl(String coverImageUrl) {
-        this.coverImageUrl = coverImageUrl;
-    }
-
 }

@@ -23,6 +23,7 @@ public class BooksService implements IBooksService {
         this.fileUploadService = fileUploadService;
     }
 
+
     @Override
     public List<BookDto> findAll() {
         var books = booksRepository.findAll();
@@ -53,10 +54,10 @@ public class BooksService implements IBooksService {
 
     @Override
     public Boolean updateBook(Long id, BookDto bookDto, MultipartFile imageFile) throws IOException {
-        Optional<Author> a = authorsRepository.findById(bookDto.getAuthorId());
+        boolean authorExists = authorsRepository.existsById(bookDto.getAuthorId());
         Optional<Book> b = booksRepository.findById(id);
 
-        if (a.isEmpty() || b.isEmpty()) { return false; }
+        if (!authorExists || b.isEmpty()) { return false; }
 
         String uploadedUrl = fileUploadService.saveUploadedFile(imageFile, "books");
         if (uploadedUrl != null) {
@@ -90,15 +91,12 @@ public class BooksService implements IBooksService {
         bookDto.setPrice(book.getPrice());
         bookDto.setQuantity(book.getQuantity());
         bookDto.setCoverImageUrl(book.getCoverImageUrl());
+        bookDto.setAuthorId(book.getAuthorId());
 
-        Author author = book.getAuthor();
-        if (author != null) {
-            bookDto.setAuthorName(author.getName());
-            bookDto.setAuthorId(author.getId());
-        } else {
-            bookDto.setAuthorName("Unknown Author");
-            bookDto.setAuthorId(null);
-        }
+        authorsRepository.findById(book.getAuthorId()).ifPresentOrElse(
+            author -> bookDto.setAuthorName(author.getName()),
+            () -> bookDto.setAuthorName("Unknown Author")
+        );
 
         return bookDto;
     }
@@ -108,8 +106,9 @@ public class BooksService implements IBooksService {
             throw new IllegalArgumentException("Author ID must not be null when creating or updating a book.");
         }
 
-        Author author = authorsRepository.findById(bookDto.getAuthorId())
-                .orElseThrow(() -> new IllegalArgumentException("Author not found with ID: " + bookDto.getAuthorId()));
+        if (!authorsRepository.existsById(bookDto.getAuthorId())) {
+            throw new IllegalArgumentException("Author not found with ID: " + bookDto.getAuthorId());
+        }
 
         book.setTitle(bookDto.getTitle());
         book.setDescription(bookDto.getDescription());
@@ -117,7 +116,7 @@ public class BooksService implements IBooksService {
         book.setPrice(bookDto.getPrice());
         book.setQuantity(bookDto.getQuantity());
         book.setCoverImageUrl(bookDto.getCoverImageUrl());
-        book.setAuthor(author);
+        book.setAuthorId(bookDto.getAuthorId());
 
         return book;
     }
