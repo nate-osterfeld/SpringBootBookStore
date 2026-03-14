@@ -26,9 +26,10 @@ public class SecurityConfig {
         http
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/h2-console/**", "/api/test").permitAll() // login/register open
-                .requestMatchers("/api/admin/**", "/api/test/admin").hasRole("ADMIN") // admin protected
-                .anyRequest().authenticated() // everything else requires login
+                .requestMatchers("/api/auth/**", "/h2-console/**", "/api/test").permitAll() // login/register
+                .requestMatchers("/api/**").permitAll() // temp allow all requests until further frontend development is complete
+                .requestMatchers("/api/test/admin").hasRole("ADMIN") // admin protected
+//                .anyRequest().authenticated() // everything else requires login
             )
             .exceptionHandling(ex -> ex
                 .authenticationEntryPoint(
