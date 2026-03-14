@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/authors")
 public class AdminAuthorsController {
-    IAuthorsAdminClient authorsAdminClient;
+    private final IAuthorsAdminClient authorsAdminClient;
 
     public AdminAuthorsController(IAuthorsAdminClient authorsAdminClient) {
         this.authorsAdminClient = authorsAdminClient;
@@ -68,11 +68,9 @@ public class AdminAuthorsController {
         return "redirect:/admin/authors";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteAuthor(@PathVariable Long id) {
-        // TODO: Change referential integrity to cascade delete or return "Cannot delete author with existing books"
         authorsAdminClient.deleteAuthor(id);
-
         return "redirect:/admin/authors";
     }
 }
