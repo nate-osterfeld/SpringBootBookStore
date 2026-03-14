@@ -18,10 +18,14 @@ import java.util.List;
 public class AdminBooksController {
     private final IBooksAdminClient booksAdminClient;
     private final IAuthorsAdminClient authorsAdminClient;
+    private final ObjectMapper objectMapper;
 
-    public AdminBooksController(IBooksAdminClient booksAdminClient, IAuthorsAdminClient authorsAdminClient) {
+    public AdminBooksController(IBooksAdminClient booksAdminClient,
+                                IAuthorsAdminClient authorsAdminClient,
+                                ObjectMapper objectMapper) {
         this.booksAdminClient = booksAdminClient;
         this.authorsAdminClient = authorsAdminClient;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -45,11 +49,8 @@ public class AdminBooksController {
     public String addBook(
         @ModelAttribute Book book,
         @RequestParam("coverImage") MultipartFile imageFile) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String bookJson = mapper.writeValueAsString(book);
-
+        String bookJson = objectMapper.writeValueAsString(book);
         booksAdminClient.createBook(bookJson, imageFile);
-
         return "redirect:/admin/books";
     }
 
@@ -64,15 +65,12 @@ public class AdminBooksController {
     }
 
     @PostMapping("/edit-book/{id}")
-    public String editAuthor(
+    public String editBook(
         @PathVariable Long id,
         @ModelAttribute Book book,
         @RequestParam("coverImage") MultipartFile imageFile) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String authorJson = mapper.writeValueAsString(book);
-
-        booksAdminClient.editBook(id, authorJson, imageFile);
-
+        String bookJson = objectMapper.writeValueAsString(book);
+        booksAdminClient.editBook(id, bookJson, imageFile);
         return "redirect:/admin/books";
     }
 
