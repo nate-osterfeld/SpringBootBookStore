@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Bookstore</title>
-    <link rel="stylesheet" th:href="@{/books.css}">
-</head>
-<body>
-<h1>Books</h1>
-<div>
-    <th:block th:each="book : ${books}">
-        <div th:text="${book.title}"></div>
-    </th:block>
-</div>
-</body>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/public-layout.html}">
+    <head>
+        <title>Books</title>
+        <link rel="stylesheet" th:href="@{/books.css}">
+    </head>
+    <body>
+        <!-- start fragment here -->
+        <div layout:fragment="content">
+            <h1>Books</h1>
+            <div>
+                <th:block th:each="book : ${books}">
+                    <div th:text="${book.title}"></div>
+                </th:block>
+            </div>
+        </div>
+    </body>
 </html>

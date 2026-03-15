@@ -13,15 +13,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.usersRepository = usersRepository;
     }
 
+    // Called from JwtFilter, receives username from token, returns user object (injected via auth/security context)
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserPrincipal loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = usersRepository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return org.springframework.security.core.userdetails.User
-            .withUsername(user.getUsername())
-            .password(user.getPasswordHash())
-            .roles(user.getRole())
-            .build();
+        return new UserPrincipal(user); // wrap User in UserPrincipal
     }
 }

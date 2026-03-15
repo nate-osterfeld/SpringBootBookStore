@@ -3,10 +3,10 @@ package com.bookstore.auth;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -18,7 +18,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<AuthResponse> login(
         @RequestBody AuthRequest request,
         HttpServletResponse response
     ) {
@@ -31,7 +31,7 @@ public class AuthController {
 
         response.addCookie(cookie);
 
-        return ResponseEntity.ok("Login successful. Jwt: " + token);
+        return ResponseEntity.ok(new AuthResponse(token, request.getUsername()));
     }
 
 
@@ -43,6 +43,17 @@ public class AuthController {
         }
 
         return ResponseEntity.ok("User registered successfully");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getMe(Authentication authentication) {
+        UserPrincipal user = (UserPrincipal) authentication.getPrincipal(); // Grab user principal from auth object
+
+        return ResponseEntity.ok(Map.of(
+            "id", user.getId(),
+            "username", user.getUsername(),
+            "roles", user.getAuthorities()
+        ));
     }
 
     @PostMapping("/logout")
