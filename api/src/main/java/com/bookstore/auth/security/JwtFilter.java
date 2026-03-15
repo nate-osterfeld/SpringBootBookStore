@@ -1,6 +1,7 @@
 package com.bookstore.auth.security;
 
 import com.bookstore.auth.CustomUserDetailsService;
+import com.bookstore.auth.UserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -38,22 +38,24 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = header.substring(7);
-        String username = jwtService.extractUsername(token);
+        String token = header.substring(7); // grab token only
+        String username = jwtService.extractUsername(token); // extract username from token
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            // Future update: check if token is valid before hitting db and just use claims instead of object
+            UserPrincipal user = userDetailsService.loadUserByUsername(username);
 
+            // create auth object for injection
             UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(
-                    userDetails,
+                    user,
                     null,
-                    userDetails.getAuthorities()
+                    user.getAuthorities()
                 );
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            SecurityContextHolder.getContext().setAuthentication(auth); // Inject auth object into security context
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request,response); // forward middleware
     }
 }

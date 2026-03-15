@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Layout page</title>
+    <link rel="stylesheet" th:href="@{/public-layout.css}">
+</head>
+    <body>
+        <div class="banner">
+            <h1 class="title"><a href="/">Book Store</a></h1>
+
+            <nav>
+                <a href="/"><span>Home</span></a>
+                <a href="#"><span>My Books</span></a>
+                <a href="#"><span>Authors</span></a>
+                <a href="/admin/books"><span>Dashboard</span></a>
+            </nav>
+            <a href="/login" class="user" id="loginLink">Sign in</a>
+            <a href="/account" id="accountLink" class="user" style="display: none;">My account</a>
+        </div>
+        <!-- start fragment here -->
+        <div class="put-fragment-here" style="width: 100%;" layout:fragment="content">
+        </div>
+    </body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Use localStorage to determine login status
+        const token = localStorage.getItem("jwt");
+        const loginLink = document.getElementById("loginLink");
+        const accountLink = document.getElementById("accountLink");
+
+        if (token) {
+            loginLink.style.display = "none";
+            accountLink.style.display = "block";
+        } else {
+            loginLink.style.display = "block";
+            accountLink.style.display = "none";
+        }
+    });
+</script>
+</html>

@@ -24,7 +24,7 @@ public class JwtService {
         return Jwts.parserBuilder()
             .setSigningKey(SECRET_KEY.getBytes())
             .build()
-            .parseClaimsJws(token)
+            .parseClaimsJws(token) // Validate signature and expiration
             .getBody()
             .getSubject();
     }
@@ -33,7 +33,7 @@ public class JwtService {
         return Jwts.parserBuilder()
             .setSigningKey(SECRET_KEY.getBytes())
             .build()
-            .parseClaimsJws(token)
+            .parseClaimsJws(token) // Validate signature and expiration
             .getBody()
             .get("userId", Long.class);
     }
