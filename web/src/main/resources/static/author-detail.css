@@ -1,0 +1,58 @@
+.author-detail {
+    max-width: 800px;
+    margin: 2rem auto;
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.author-detail img {
+    max-width: 250px;
+    border-radius: 8px;
+}
+
+.author-info h1 {
+    margin: 0 0 0.5rem;
+}
+
+.bio {
+    margin-top: 1rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+.author-books {
+    margin-top: 2rem;
+}
+
+.author-books h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.author-books ul {
+    list-style: none;
+    padding: 0;
+}
+
+.author-books li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.author-books a {
+    color: #2a7ae2;
+    text-decoration: none;
+    font-size: 1.05rem;
+}
+
+.book-price {
+    color: #666;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: #2a7ae2;
+    text-decoration: none;
+}

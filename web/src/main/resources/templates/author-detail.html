@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/public-layout.html}">
+
+<head>
+  <title th:text="${author.name}">Author Name</title>
+  <link rel="stylesheet" th:href="@{/css/author-detail.css}"/>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="author-detail">
+
+
+    <img th:if="${author.authorImageUrl != null}"
+         th:src="${author.authorImageUrl}"
+         alt="Author photo"/>
+
+    <div class="author-info">
+
+      <h1 th:text="${author.name}">Author Name</h1>
+
+
+      <p class="bio" th:text="${author.bio}">
+        Author biography goes here
+      </p>
+
+
+      <div class="author-books" th:if="${author.books != null and !author.books.isEmpty()}">
+        <h2>Books</h2>
+        <ul>
+
+          <li th:each="book : ${author.books}">
+            <a th:href="@{'/books/' + ${book.id}}"
+               th:text="${book.title}">Book Title</a>
+            <span class="book-price"
+                  th:if="${book.price != null}"
+                  th:text="' — $' + ${book.price}">$0.00</span>
+          </li>
+        </ul>
+      </div>
+
+
+      <a th:href="@{/}" class="back-link">Back to all books</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
