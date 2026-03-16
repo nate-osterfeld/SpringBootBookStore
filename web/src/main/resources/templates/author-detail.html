@@ -5,7 +5,7 @@
 
 <head>
   <title th:text="${author.name}">Author Name</title>
-  <link rel="stylesheet" th:href="@{/css/author-detail.css}"/>
+  <link rel="stylesheet" th:href="@{/author-detail.css}"/>
 </head>
 <body>
 <div layout:fragment="content">
@@ -13,7 +13,9 @@
 
 
     <img th:if="${author.authorImageUrl != null}"
-         th:src="${author.authorImageUrl}"
+         th:src="${author.authorImageUrl.startsWith('/uploads/authors')
+                 ? 'http://localhost:5000' + author.authorImageUrl
+                 : author.authorImageUrl}"
          alt="Author photo"/>
 
     <div class="author-info">

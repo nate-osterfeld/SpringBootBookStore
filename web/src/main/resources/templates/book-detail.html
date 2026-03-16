@@ -3,13 +3,15 @@
       layout:decorate="~{layout/public-layout.html}">
 <head>
     <title th:text="${book.title}">Book Title</title>
-    <link rel="stylesheet" th:href="@{/css/book-detail.css}"/>
+    <link rel="stylesheet" th:href="@{/book-detail.css}"/>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="book-detail">
         <img th:if="${book.coverImageUrl != null}"
-             th:src="${book.coverImageUrl}"
+             th:src="${book.coverImageUrl.startsWith('/uploads/books')
+                     ? 'http://localhost:5000' + book.coverImageUrl
+                     : book.coverImageUrl}"
              alt="Book cover"/>
 
         <div class="book-info">
