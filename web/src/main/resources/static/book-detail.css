@@ -1,0 +1,63 @@
+.book-detail {
+    max-width: 800px;
+    margin: 2rem auto;
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.book-detail img {
+    max-width: 300px;
+    border-radius: 8px;
+}
+
+.book-info h1 {
+    margin: 0 0 0.5rem;
+}
+
+.author {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.author a {
+    color: #2a7ae2;
+    text-decoration: none;
+}
+
+.genre {
+    color: #888;
+    font-style: italic;
+}
+
+.description {
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+.pricing {
+    margin-top: 1.5rem;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2a7ae2;
+}
+
+.stock {
+    color: #2e8b57;
+    margin-top: 0.5rem;
+}
+
+.out-of-stock {
+    color: #cc3333;
+    margin-top: 0.5rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: #2a7ae2;
+    text-decoration: none;
+}

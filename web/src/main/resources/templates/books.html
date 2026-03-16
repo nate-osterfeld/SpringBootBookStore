@@ -11,7 +11,7 @@
             <h1>Books</h1>
             <div>
                 <th:block th:each="book : ${books}">
-                    <div th:text="${book.title}"></div>
+                    <a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}"></a>
                 </th:block>
             </div>
         </div>
