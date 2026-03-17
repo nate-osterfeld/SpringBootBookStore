@@ -15,7 +15,9 @@
 
                     <a th:href="@{'/books/' + ${book.id}}">
                         <img class="book-cover"
-                             th:src="${book.coverImageUrl != null ? book.coverImageUrl : '/images/placeholder.png'}"
+                             th:src="${book.coverImageUrl.startsWith('/uploads/books')
+                                 ? 'http://localhost:5000' + book.coverImageUrl
+                                 : book.coverImageUrl}"
                              th:alt="${book.title}"/>
                     </a>
 
