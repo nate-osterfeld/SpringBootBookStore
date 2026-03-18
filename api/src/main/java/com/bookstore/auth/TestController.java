@@ -1,6 +1,7 @@
 package com.bookstore.auth;
 
 import com.bookstore.auth.security.CurrentUserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     private final CurrentUserService currentUserService;
 
-    public TestController(IUsersRepository usersRepository, CurrentUserService currentUserService) {
+    public TestController(CurrentUserService currentUserService) {
         this.currentUserService = currentUserService;
     }
 
@@ -20,12 +21,14 @@ public class TestController {
     }
 
     @GetMapping("/test/auth")
+    @PreAuthorize("isAuthenticated()")
     public String authenticated() {
-        User user = currentUserService.getCurrentUser();
+        var user = currentUserService.getCurrentUser();
         return "you are logged in as " + user.getUsername() + " with role of " + user.getRole();
     }
 
     @GetMapping("/test/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public String adminOnly() {
         User user = currentUserService.getCurrentUser();
         return "you are a logged in as " + user.getUsername() + " with role of " + user.getRole();

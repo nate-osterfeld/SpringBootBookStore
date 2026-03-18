@@ -1,4 +1,4 @@
-package com.bookstore.web.clients.admin;
+package com.bookstore.web.clients.Config;
 
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;

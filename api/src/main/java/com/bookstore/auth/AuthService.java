@@ -24,7 +24,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String login(AuthRequest request) {
+    public AuthResponse login(AuthRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -33,10 +33,14 @@ public class AuthService {
                 )
         );
 
+        // Grab user from db
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
 
-        return jwtService.generateToken(user.getId(), user.getUsername());
+        // Create token with claims
+        String token = jwtService.generateToken(user.getId(), user.getUsername(), user.getRole());
+
+        return new AuthResponse(token, user.getUsername(), user.getRole());
     }
 
     public Boolean register(AuthRequest request) {

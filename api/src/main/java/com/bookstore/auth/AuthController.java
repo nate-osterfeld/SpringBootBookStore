@@ -1,5 +1,6 @@
 package com.bookstore.auth;
 
+import com.bookstore.auth.security.CurrentUserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +23,17 @@ public class AuthController {
         @RequestBody AuthRequest request,
         HttpServletResponse response
     ) {
-        String token = authService.login(request);
+        AuthResponse authResponse = authService.login(request);
 
-        Cookie cookie = new Cookie("jwt", token);
+        Cookie cookie = new Cookie("jwt", authResponse.getToken());
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24); // 1 day
 
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(new AuthResponse(token, request.getUsername()));
+        // return token, name, and role for localStorage
+        return ResponseEntity.ok(authResponse);
     }
 
 

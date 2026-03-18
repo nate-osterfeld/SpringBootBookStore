@@ -3,8 +3,10 @@ package com.bookstore.auth.security;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
 
@@ -32,9 +35,14 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/**").permitAll()
-                .requestMatchers("/api/test/admin").hasRole("ADMIN")
-                //  .anyRequest().authenticated()
+                    .requestMatchers("/api/test/admin/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/authors/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/authors/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/authors/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
+                    .anyRequest().permitAll()
             )
             .exceptionHandling(ex -> ex
                 .authenticationEntryPoint(
