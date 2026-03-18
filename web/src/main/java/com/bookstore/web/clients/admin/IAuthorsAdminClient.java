@@ -1,5 +1,6 @@
 package com.bookstore.web.clients.admin;
 
+import com.bookstore.web.clients.Config.FeignMultipartConfig;
 import com.bookstore.web.external.Author;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

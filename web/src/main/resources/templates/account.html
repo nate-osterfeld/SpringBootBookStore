@@ -14,6 +14,7 @@
 
             <div class="form-group" style="margin: 20px 0;">
                 <p><b>User:</b> <span id="displayUsername"></span></p>
+                <p><b>Role:</b> <span id="displayRole"></span></p>
             </div>
 
             <button id="logoutBtn" class="logout-btn">Sign Out</button>
@@ -27,9 +28,10 @@
     // Display username from localStorage (todo: grab from /api/auth/me)
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("displayUsername").innerText = localStorage.getItem("username");
+        document.getElementById("displayRole").innerText = localStorage.getItem("role").toLowerCase();
     });
 
-    // 2. Handle Logout
+    // Handle Logout
     document.getElementById("logoutBtn").addEventListener("click", async function() {
         // Clear http cookie
         const response = await fetch("http://localhost:5000/api/auth/logout", {
@@ -41,6 +43,7 @@
             // Clear localStorage
             localStorage.removeItem("jwt");
             localStorage.removeItem("username");
+            localStorage.removeItem("role");
 
             window.location.href = "/";
         } else {

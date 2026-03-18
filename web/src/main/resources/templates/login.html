@@ -41,6 +41,7 @@
     document.getElementById("loginForm").addEventListener("submit", async function(e) {
         e.preventDefault();
 
+        // Login via fetch req so cookies sent back can be set in browser
         const response = await fetch("http://localhost:5000/api/auth/login", {
             method: "POST",
             headers: {
@@ -60,6 +61,7 @@
             // 2. Store in localStorage (for UI logic) - cookie will still handle all API requests
             localStorage.setItem("jwt", data.token);
             localStorage.setItem("username", data.username)
+            localStorage.setItem("role", data.role)
 
             // 3. Redirect to home
             window.location.href = "/";

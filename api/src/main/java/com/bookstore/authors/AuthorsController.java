@@ -3,6 +3,7 @@ package com.bookstore.authors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,7 @@ public class AuthorsController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> createAuthor(
         @RequestPart("author") String authorJson,
         @RequestPart("authorImage") MultipartFile imageFile) throws IOException
@@ -45,6 +47,7 @@ public class AuthorsController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> updateAuthor(
             @PathVariable Long id,
             @RequestPart("author") String authorJson,
@@ -61,13 +64,14 @@ public class AuthorsController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteAuthor(@PathVariable Long id) {
         // TODO: Change referential integrity to cascade delete or return "Cannot delete author with existing books"
 
         var isDeleted = authorsService.deleteAuthor(id);
 
         if (!isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Status: failed", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>("Status: success", HttpStatus.OK);

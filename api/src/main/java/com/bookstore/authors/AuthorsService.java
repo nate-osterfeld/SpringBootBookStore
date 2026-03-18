@@ -2,6 +2,7 @@ package com.bookstore.authors;
 
 import com.bookstore.books.IBooksRepository;
 import com.bookstore.config.FileUploadService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,8 +74,13 @@ public class AuthorsService implements IAuthorsService {
         if (!authorsRepository.existsById(id)) {
             return false;
         }
-        authorsRepository.deleteById(id);
-        return true;
+
+        try {
+            authorsRepository.deleteById(id);
+            return true;
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("Cannot delete: books exist for this author");
+        }
     }
 
     public AuthorDto convertToDto(Author author) {

@@ -10,10 +10,12 @@ import java.util.Date;
 public class JwtService {
     private final String SECRET_KEY = "my-super-secret-key-my-super-secret-key-my-super-secret-key";
 
-    public String generateToken(Long userId, String username) {
+    public String generateToken(Long userId, String username, String role) {
         return Jwts.builder()
             .setSubject(username)
             .claim("userId", userId)
+            .claim("username", username)
+            .claim("role", role)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + 86400000))
             .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
