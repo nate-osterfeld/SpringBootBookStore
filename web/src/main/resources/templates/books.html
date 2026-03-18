@@ -8,12 +8,46 @@
     <body>
         <!-- start fragment here -->
         <div layout:fragment="content">
-            <h1>Books</h1>
-            <div>
-                <th:block th:each="book : ${books}">
-                    <a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}"></a>
-                </th:block>
+            <h1 class="page-title">Books</h1>
+
+            <div class="book-grid">
+                <div class="book-card" th:each="book : ${books}">
+
+                    <a th:href="@{'/books/' + ${book.id}}">
+                        <img class="book-cover"
+                             th:src="${book.coverImageUrl.startsWith('/uploads/books')
+                                 ? 'http://localhost:5000' + book.coverImageUrl
+                                 : book.coverImageUrl}"
+                             th:alt="${book.title}"/>
+                    </a>
+
+                    <div class="book-info">
+                        <h3 class="book-title">
+                            <a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}">Title</a>
+                        </h3>
+                        <a class="book-author" th:href="@{'/authors/' + ${book.authorId}}" th:text="${book.authorName}">Author</a>
+                        <p class="book-genre" th:text="${book.genre}">Genre</p>
+                    </div>
+
+                    <div class="book-actions">
+                        <span class="book-price" th:text="'$' + ${#numbers.formatDecimal(book.price, 1, 2)}">$0.00</span>
+                        <span class="stock-badge in-stock" th:if="${book.quantity > 0}">In Stock</span>
+                        <span class="stock-badge out-of-stock" th:if="${book.quantity <= 0}">Out of Stock</span>
+                    </div>
+
+                    <div class="book-buttons">
+                        <a th:href="@{'/books/' + ${book.id}}" class="btn btn-details">Details</a>
+                        <button class="btn btn-cart" th:disabled="${book.quantity <= 0}">Add to Cart</button>
+                    </div>
+                </div>
             </div>
+
+            <div class="empty-state" th:if="${#lists.isEmpty(books)}">
+                <p>No books available yet. Check back soon!</p>
+            </div>
+
+
+
         </div>
     </body>
 </html>
