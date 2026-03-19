@@ -2,6 +2,7 @@ package com.bookstore.orders.cartItems;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,17 +15,28 @@ public class CartItemsController {
     public CartItemsController(ICartItemsService cartItemsService) {
         this.cartItemsService = cartItemsService;
     }
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<CartItem>> getCartByUserId(@PathVariable Long userId) {
-        var cartItems = cartItemsService.getCartByUserId(userId);
+
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<CartItem>> getCartItems() {
+        var cartItems = cartItemsService.getCartItems();
 
         return new ResponseEntity<>(cartItems, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> addToCart(@RequestBody CartItem cartItem) {
-        cartItemsService.addToCart(cartItem);
-        return new ResponseEntity<>("Status: success", HttpStatus.OK);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Integer> addToCart(@RequestBody CartItemDto cartItemDto) {
+        var cartQuantity = cartItemsService.addToCart(cartItemDto);
+
+        return new ResponseEntity<>(cartQuantity, HttpStatus.OK);
+    }
+
+    @GetMapping("/count")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Integer> getCartCount() {
+        Integer count = cartItemsService.getCartCount();
+        return ResponseEntity.ok(count);
     }
 
     @DeleteMapping("/{id}")

@@ -38,9 +38,45 @@
                 Out of stock
             </p>
 
+            <button class="btn btn-cart" th:data-id="${book.id}" th:disabled="${book.quantity <= 0}">Add to Cart</button>
+
             <a th:href="@{/}" class="back-link">Back to all books</a>
         </div>
     </div>
 </div>
 </body>
 </html>
+
+<script>
+    document.querySelectorAll('.btn-cart').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const bookId = button.getAttribute('data-id');
+
+            const response = await fetch("http://localhost:5000/api/cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ bookId: bookId, quantity: 1, mode: "add" })
+            });
+
+            if (response.ok) {
+                // Get new cart sum from response body
+                const newTotalCount = await response.json();
+
+                const cartBadge = document.getElementById("cart-count");
+                if (cartBadge) {
+                    cartBadge.innerText = newTotalCount;
+
+                    cartBadge.classList.add('pulse-animation');
+                    setTimeout(() => cartBadge.classList.remove('pulse-animation'), 300);
+                }
+            } else {
+                if (localStorage.getItem("jwt")) {
+                    alert("Your cart already holds the max in stock for this item");
+                } else {
+                    alert("Must be logged in to complete this action!")
+                }
+            }
+        });
+    });
+</script>

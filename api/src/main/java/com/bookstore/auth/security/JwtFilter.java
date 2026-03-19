@@ -4,6 +4,7 @@ import com.bookstore.auth.CustomUserDetailsService;
 import com.bookstore.auth.UserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
@@ -31,31 +32,54 @@ public class JwtFilter extends OncePerRequestFilter {
         HttpServletRequest request,
         @NonNull HttpServletResponse response,
         @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
 
-        if(header == null || !header.startsWith("Bearer ")) {
-            filterChain.doFilter(request,response);
+        // 1. Skip JWT logic entirely for OPTIONS (CORS Preflight)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
             return;
         }
 
-        String token = header.substring(7); // grab token only
-        String username = jwtService.extractUsername(token); // extract username from token
+        String token = null;
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Future update: check if token is valid before hitting db and just use claims instead of object
-            UserPrincipal user = userDetailsService.loadUserByUsername(username);
-
-            // create auth object for injection
-            UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(
-                    user,
-                    null,
-                    user.getAuthorities()
-                );
-
-            SecurityContextHolder.getContext().setAuthentication(auth); // Inject auth object into security context
+        // 2. Try to get token from Header
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            token = header.substring(7);
         }
 
-        filterChain.doFilter(request,response); // forward middleware
+        // 3. If no header, try to get token from Cookie
+        if (token == null && request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("jwt".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        // 4. Only try to parse the token if we actually found one
+        if (token != null && !token.isEmpty()) {
+            try {
+                String username = jwtService.extractUsername(token);
+
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserPrincipal user = userDetailsService.loadUserByUsername(username);
+
+                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                            user,
+                            null,
+                            user.getAuthorities()
+                    );
+
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+            } catch (Exception e) {
+                // If the token is expired or tampered with, we just don't set the Auth.
+                // This prevents the app from crashing on a bad cookie.
+                System.out.println("JWT error: " + e.getMessage());
+            }
+        }
+
+        filterChain.doFilter(request, response);
     }
 }

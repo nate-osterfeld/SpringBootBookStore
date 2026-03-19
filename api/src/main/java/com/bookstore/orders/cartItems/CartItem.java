@@ -15,8 +15,7 @@ public class CartItem {
     private Long bookId;
     private Integer quantity;
 
-    public CartItem(Long id, Long userId, Long bookId, Integer quantity) {
-        this.id = id;
+    public CartItem(Long userId, Long bookId, int quantity) {
         this.userId = userId;
         this.bookId = bookId;
         this.quantity = quantity;
