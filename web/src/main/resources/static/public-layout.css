@@ -1,5 +1,5 @@
 body {
-     font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: #f5f7fa;
 }
 
@@ -41,6 +41,7 @@ a {
 
 .put-fragment-here {
     padding: 3%;
+    padding-top: 0;
 }
 
 .fa-shopping-cart {

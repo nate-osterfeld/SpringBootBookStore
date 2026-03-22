@@ -18,7 +18,7 @@ public class CartItemsController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<CartItem>> getCartItems() {
+    public ResponseEntity<List<CartItemDto>> getCartItems() {
         var cartItems = cartItemsService.getCartItems();
 
         return new ResponseEntity<>(cartItems, HttpStatus.OK);
@@ -30,6 +30,14 @@ public class CartItemsController {
         var cartQuantity = cartItemsService.addToCart(cartItemDto);
 
         return new ResponseEntity<>(cartQuantity, HttpStatus.OK);
+    }
+
+    @PostMapping("/checkout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> checkout(@RequestBody List<CartItemDto> cartItems) {
+        cartItemsService.checkout(cartItems);
+
+        return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 
     @GetMapping("/count")

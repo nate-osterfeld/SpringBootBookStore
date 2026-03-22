@@ -31,7 +31,11 @@
 
                     <div class="book-actions">
                         <span class="book-price" th:text="'$' + ${#numbers.formatDecimal(book.price, 1, 2)}">$0.00</span>
-                        <span class="stock-badge in-stock" th:if="${book.quantity > 0}">In Stock</span>
+                        <span class="stock-badge in-stock"
+                              th:if="${book.quantity > 0}"
+                              th:text="'(' + ${book.quantity} + ')' + ' In Stock'">
+                        </span>
+
                         <span class="stock-badge out-of-stock" th:if="${book.quantity <= 0}">Out of Stock</span>
                     </div>
 

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/public-layout.html}">
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" th:href="@{/cart.css}">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title">Cart</h1>
+
+    <div class="cart-container">
+        <div th:each="item : ${cartItems}"
+             class="cart-item"
+             th:data-book-id="${item.getBook().getId()}"
+             th:data-price="${item.getBook().getPrice()}">
+
+            <img class="book-img"
+                 th:src="${item.getBook().coverImageUrl.startsWith('/uploads/books')
+                     ? 'http://localhost:5000' + item.getBook().getCoverImageUrl()
+                     : item.getBook().getCoverImageUrl()}"
+                 th:alt="${item.getBook().getTitle()}"/>
+
+            <div class="item-details">
+                <h3 th:text="${item.getBook().getTitle()}"></h3>
+
+                <div class="price"
+                     th:text="${#numbers.formatCurrency(item.getBook().getPrice())}">
+                </div>
+
+                <div class="actions">
+                    <button class="btn remove">Remove</button>
+
+                    <div class="quantity">
+                        <button type="button" class="minus">-</button>
+                        <input type="text"
+                               class="qty-input"
+                               th:value="${item.getQuantity()}" />
+                        <button type="button" class="plus">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subtotal">
+            Subtotal:
+            <strong id="subtotal"
+                    th:text="${#numbers.formatCurrency(subtotal)}">
+            </strong>
+        </div>
+
+        <div class="cart-footer">
+            <button class="btn continue">Continue Shopping</button>
+            <button class="btn checkout">Checkout</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Update quantities + subtotal
+        function updateSubtotal() {
+            let subtotal = 0;
+
+            document.querySelectorAll(".cart-item").forEach(item => {
+                const price = parseFloat(item.dataset.price);
+                const qtyInput = item.querySelector(".qty-input");
+                const quantity = parseInt(qtyInput.value) || 0;
+
+                subtotal += price * quantity;
+            });
+
+            document.getElementById("subtotal").textContent =
+                "$" + subtotal.toFixed(2);
+        }
+
+        document.querySelectorAll(".quantity").forEach(container => {
+            const input = container.querySelector(".qty-input");
+            const plus = container.querySelector(".plus");
+            const minus = container.querySelector(".minus");
+
+            plus.addEventListener("click", () => {
+                let cartBadge = document.getElementById("cart-count");
+                let value = parseInt(input.value) || 0;
+                input.value = value + 1;
+                cartBadge.innerText = value + 1;
+
+                updateSubtotal();
+            });
+
+            minus.addEventListener("click", () => {
+                let cartBadge = document.getElementById("cart-count");
+                let value = parseInt(input.value) || 0;
+                if (value > 1) {
+                    input.value = value - 1;
+                    cartBadge.innerText = value - 1;
+                    updateSubtotal();
+                }
+            });
+        });
+
+    });
+
+    // Handle checkout
+    document.querySelector(".checkout").addEventListener("click", async () => { // Added 'async' here
+        const items = Array.from(document.querySelectorAll(".cart-item")).map(item => ({
+            bookId: item.dataset.bookId,
+            quantity: item.querySelector(".qty-input").value
+        }));
+
+        try {
+            const response = await fetch('/cart/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(items)
+            });
+
+            if (response.ok) {
+                alert("Order placed successfully!");
+                window.location.href = "/";
+            } else {
+                // Display message field from MVC GlobalExceptionHandler JSON (check if object or string)
+                const errorData = await response.json();
+                let display = errorData.message;
+
+                const obj = JSON.parse(display);
+                if (obj.message)
+                    display = obj.message;
+
+                alert(display);
+            }
+        } catch (err) {
+            alert("A network error occurred. Please try again.");
+        }
+    });
+</script>
