@@ -68,21 +68,9 @@ public class CartItemsService implements ICartItemsService {
     }
 
     @Override
-    public Boolean removeFromCart(Long id) {
-        var isItemExists = cartItemsRepository.findById(id);
-        if (isItemExists.isPresent()) {
-            var item = isItemExists.get();
-            if (item.getQuantity() > 1) {
-                item.setQuantity(item.getQuantity() - 1);
-                cartItemsRepository.save(item);
-            } else if (item.getQuantity() == 1) {
-                cartItemsRepository.delete(item);
-            }
-
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteCartItem(Long id) {
+        var cartItem = cartItemsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cart item not found"));
+        cartItemsRepository.delete(cartItem);
     }
 
     @Override

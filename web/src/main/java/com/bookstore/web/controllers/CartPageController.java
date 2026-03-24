@@ -34,9 +34,9 @@ public class CartPageController {
         return "cart";
     }
 
-    @PostMapping("/remove/{id}")
-    public ResponseEntity<String> remove(@PathVariable Long id) {
-        cartClient.delete(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
+        cartClient.deleteCartItem(id);
 
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }

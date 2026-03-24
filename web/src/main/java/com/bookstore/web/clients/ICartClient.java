@@ -15,5 +15,5 @@ public interface ICartClient {
     String checkout(@RequestBody List<CartItem> order);
 
     @DeleteMapping("/delete/{id}")
-    String delete(@PathVariable Long id);
+    String deleteCartItem(@PathVariable Long id);
 }

@@ -47,14 +47,10 @@ public class CartItemsController {
         return ResponseEntity.ok(count);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> removeFromCart(@PathVariable Long id) {
-        var isExists = cartItemsService.removeFromCart(id);
-
-        if (!isExists) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
+        cartItemsService.deleteCartItem(id);
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 }

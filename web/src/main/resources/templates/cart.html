@@ -13,6 +13,7 @@
     <div class="cart-container">
         <div th:each="item : ${cartItems}"
              class="cart-item"
+             th:data-cart-item-id="${item.getId()}"
              th:data-book-id="${item.getBook().getId()}"
              th:data-price="${item.getBook().getPrice()}">
 
@@ -39,12 +40,14 @@
                                th:value="${item.getQuantity()}" />
                         <button type="button" class="plus">+</button>
                     </div>
+
+                    <div class="cart-item-total"></div>
                 </div>
             </div>
         </div>
 
         <div class="subtotal">
-            Subtotal:
+            Total:
             <strong id="subtotal"
                     th:text="${#numbers.formatCurrency(subtotal)}">
             </strong>
@@ -62,47 +65,82 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        // Update quantities + subtotal
-        function updateSubtotal() {
+        // Update cart totals
+        function updateCartTotals() {
             let subtotal = 0;
+            let totalItems = 0;
 
             document.querySelectorAll(".cart-item").forEach(item => {
-                const price = parseFloat(item.dataset.price);
+                const price = parseFloat(item.dataset.price) || 0;
                 const qtyInput = item.querySelector(".qty-input");
                 const quantity = parseInt(qtyInput.value) || 0;
 
-                subtotal += price * quantity;
+                subtotal += (price * quantity);
+                totalItems += quantity;
+
+                // Update individual item total
+                const itemTotalDisplay = item.querySelector(".cart-item-total");
+                if (itemTotalDisplay) {
+                    itemTotalDisplay.textContent = "$" + (price * quantity).toFixed(2);
+                }
             });
 
-            document.getElementById("subtotal").textContent =
-                "$" + subtotal.toFixed(2);
+            // Update subtotal display
+            const subtotalEl = document.getElementById("subtotal");
+            if (subtotalEl) subtotalEl.textContent = "$" + subtotal.toFixed(2);
+
+            // Update global cart badge (total of ALL items)
+            const cartBadge = document.getElementById("cart-count");
+            if (cartBadge) cartBadge.textContent = totalItems.toString();
         }
 
-        document.querySelectorAll(".quantity").forEach(container => {
-            const input = container.querySelector(".qty-input");
-            const plus = container.querySelector(".plus");
-            const minus = container.querySelector(".minus");
+        // Handle quantity buttons
+        document.querySelectorAll(".cart-item").forEach(item => {
+            const input = item.querySelector(".qty-input");
+            const plus = item.querySelector(".plus");
+            const minus = item.querySelector(".minus");
 
             plus.addEventListener("click", () => {
-                let cartBadge = document.getElementById("cart-count");
-                let value = parseInt(input.value) || 0;
-                input.value = value + 1;
-                cartBadge.innerText = value + 1;
-
-                updateSubtotal();
+                let val = parseInt(input.value) || 0;
+                input.value = (val + 1).toString();
+                updateCartTotals();
             });
 
             minus.addEventListener("click", () => {
-                let cartBadge = document.getElementById("cart-count");
-                let value = parseInt(input.value) || 0;
-                if (value > 1) {
-                    input.value = value - 1;
-                    cartBadge.innerText = value - 1;
-                    updateSubtotal();
+                let val = parseInt(input.value) || 0;
+                if (val > 1) {
+                    input.value = (val - 1).toString();
+                    updateCartTotals();
                 }
+            });
+
+            // Handle manual input on change
+            input.addEventListener("change", () => {
+                if (parseInt(input.value) < 1 || isNaN(parseInt(input.value))) {
+                    input.value = "1";
+                }
+                updateCartTotals();
             });
         });
 
+        // Initial run on page load
+        updateCartTotals();
+    });
+
+    // Handle remove
+    document.querySelectorAll(".cart-item").forEach(item => {
+        const remove = item.querySelector(".remove");
+
+        remove.addEventListener("click", async () => {
+            console.log(item.dataset.cartItemId)
+            const response = await fetch(`/cart/delete/${item.dataset.cartItemId}`, {
+                method: 'DELETE',
+            })
+
+            if (response.ok) {
+                window.location.reload();
+            }
+        })
     });
 
     // Handle checkout

@@ -16,7 +16,7 @@ public interface ICartItemsRepository extends JpaRepository<CartItem, Long> {
     @Query("SELECT b FROM Book b JOIN CartItem c ON b.id = c.bookId WHERE c.userId = :userId")
     List<Book> findAllBooksInCartByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT new com.bookstore.orders.cartItems.CartItemDto(b, c.quantity) " +
+    @Query("SELECT new com.bookstore.orders.cartItems.CartItemDto(c.id, b, c.quantity) " +
             "FROM Book b JOIN CartItem c ON b.id = c.bookId " +
             "WHERE c.userId = :userId")
     List<CartItemDto> findCartItemsByUserId(@Param("userId") Long userId);
