@@ -18,7 +18,7 @@ public class CartItemsController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<CartItem>> getCartItems() {
+    public ResponseEntity<List<CartItemDto>> getCartItems() {
         var cartItems = cartItemsService.getCartItems();
 
         return new ResponseEntity<>(cartItems, HttpStatus.OK);
@@ -32,6 +32,14 @@ public class CartItemsController {
         return new ResponseEntity<>(cartQuantity, HttpStatus.OK);
     }
 
+    @PostMapping("/checkout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> checkout(@RequestBody List<CartItemDto> cartItems) {
+        cartItemsService.checkout(cartItems);
+
+        return new ResponseEntity<>("Status: success", HttpStatus.OK);
+    }
+
     @GetMapping("/count")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Integer> getCartCount() {
@@ -39,14 +47,10 @@ public class CartItemsController {
         return ResponseEntity.ok(count);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> removeFromCart(@PathVariable Long id) {
-        var isExists = cartItemsService.removeFromCart(id);
-
-        if (!isExists) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> deleteCartItem(@PathVariable Long id) {
+        cartItemsService.deleteCartItem(id);
         return new ResponseEntity<>("Status: success", HttpStatus.OK);
     }
 }

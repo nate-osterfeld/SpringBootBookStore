@@ -22,11 +22,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleFeignException(feign.FeignException ex) {
         int status = ex.status() > 0 ? ex.status() : 500;
 
+        // Grab the raw body from the backend (the JSON string)
+        String backendMessage = ex.contentUTF8();
+
         String customMessage = switch (status) {
             case 401 -> "You must be logged in to perform this action.";
             case 403 -> "You must be signed in as an admin to perform this action.";
             case 404 -> "The requested resource was not found on the server.";
-            case 409 -> "This action could not be completed because it conflicts with an existing data resource.";
+            case 409 -> (backendMessage != null && !backendMessage.isEmpty())
+                    ? backendMessage
+                    : "This action could not be completed due to a conflict.";
             case 500 -> "Oops. Something blew up on the server.";
             default -> "An unexpected error occurred: " + status;
         };
