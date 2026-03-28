@@ -55,7 +55,13 @@
                         <a th:href="@{'/books/' + ${purchase.book.id}}" class="btn btn-details">Details</a>
 
                         <button class="btn btn-read">Read</button>
-                        <button class="btn btn-remove">Return</button>
+                        <button class="btn btn-remove"
+                                th:data-book-id="${purchase.book.id}"
+                                th:data-order-id="${purchase.orderId}"
+                                th:data-quantity="${purchase.purchaseQuantity}"
+                        >
+                            Return
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -73,6 +79,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // Handle Search
         const searchInput = document.getElementById("bookSearch");
         const tableRows = document.querySelectorAll(".purchases-table tbody tr");
 
@@ -92,5 +99,42 @@
                 }
             });
         });
+
+        // Handle Return Click
+        document.addEventListener("click", (e) => {
+            if (e.target.classList.contains("btn-remove")) {
+                const btn = e.target;
+                const data = {
+                    bookId: btn.getAttribute("data-book-id"),
+                    orderId: btn.getAttribute("data-order-id"),
+                };
+
+                if (confirm("Are you sure you want to return this book?")) {
+                    sendReturnRequest(data, btn);
+                }
+            }
+        });
+
+        async function sendReturnRequest(data, buttonElement) {
+            try {
+                const response = await fetch('/purchases/returns', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Return processed successfully!");
+                    window.location.href="/purchases"
+                } else {
+                    alert("Failed to process return. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred while connecting to the server.");
+            }
+        }
     });
 </script>

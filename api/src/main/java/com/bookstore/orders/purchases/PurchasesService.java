@@ -59,6 +59,29 @@ public class PurchasesService implements IPurchasesService{
         return results;
     }
 
+    @Override
+    public Boolean returnPurchase(Purchase purchase) {
+        var user = currentUserService.getCurrentUser();
+        var purchases = purchasesRepository.findByUserId(user.getId());
+
+        // Loop through user's purchases looking for matching bookId and orderId (dec quantity or delete if 1 left)
+        for (Purchase p : purchases) {
+            if (Objects.equals(p.getBookId(), purchase.getBookId()) && Objects.equals(p.getOrderId(), purchase.getOrderId())) {
+                if (p.getQuantity() > 1) {
+                    p.setQuantity(p.getQuantity() - 1);
+
+                    purchasesRepository.save(p);
+                } else {
+                    purchasesRepository.delete(p);
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public BookDto convertToDto(Book book) {
         var bookDto = new BookDto();
 

@@ -2,6 +2,7 @@ package com.bookstore.web.external;
 
 public class Purchase {
     private Book book;
+    private Long bookId;
     private Long orderId;
     private int purchaseQuantity;
 
@@ -20,6 +21,10 @@ public class Purchase {
     public void setBook(Book book) {
         this.book = book;
     }
+
+    public Long getBookId() { return bookId; }
+
+    public void setBookId(Long bookId) { this.bookId = bookId; }
 
     public int getPurchaseQuantity() {
         return purchaseQuantity;
