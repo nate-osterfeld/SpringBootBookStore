@@ -6,6 +6,22 @@
     color: #2c3e6b;
 }
 
+.search-section {
+    display: flex;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+}
+
+#bookSearch {
+    width: 75%;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
 
 .book-grid {
     display: grid;

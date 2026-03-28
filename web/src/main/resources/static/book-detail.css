@@ -101,6 +101,10 @@
     max-height: 32px;
 }
 
+.btn-cart:hover {
+    background: #1e5c30;
+}
+
 .back-link {
     display: inline-block;
     margin-top: 1.5rem;

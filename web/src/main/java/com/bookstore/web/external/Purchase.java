@@ -1,9 +1,7 @@
-package com.bookstore.orders.purchases;
+package com.bookstore.web.external;
 
-import com.bookstore.books.BookDto;
-
-public class PurchaseDto {
-    private BookDto book;
+public class Purchase {
+    private Book book;
     private Long orderId;
     private int purchaseQuantity;
 
@@ -15,11 +13,11 @@ public class PurchaseDto {
         this.orderId = orderId;
     }
 
-    public BookDto getBook() {
+    public Book getBook() {
         return book;
     }
 
-    public void setBook(BookDto book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 

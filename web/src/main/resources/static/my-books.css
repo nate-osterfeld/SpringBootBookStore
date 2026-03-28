@@ -1,0 +1,152 @@
+.page-title {
+    text-align: center;
+    margin: 2rem 0;
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    color: #2c3e6b;
+}
+
+.search-section {
+    display: flex;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+}
+
+#bookSearch {
+    width: 75%;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.search-section input:focus {
+    outline: none;
+    border-color: #2a7ae2;
+    box-shadow: 0 0 8px rgba(42, 122, 226, 0.2);
+}
+
+.table-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+
+.purchases-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.purchases-table thead {
+    background: #2c3e6b;
+    color: #fff;
+    text-align: left;
+}
+
+.purchases-table th,
+.purchases-table td {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.table-book-cover {
+    width: 60px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-book-title {
+    font-weight: 600;
+    color: #2c3e6b;
+    font-size: 1rem;
+}
+
+.table-book-author {
+    font-size: 0.85rem;
+    color: #2a7ae2;
+}
+
+.table-book-genre {
+    font-size: 0.8rem;
+    color: #999;
+    font-style: italic;
+}
+
+.col-price {
+    font-style: italic;
+}
+
+.qty-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.table-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s, opacity 0.2s;
+    flex: 1;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-details {
+    background: #2c3e6b;
+    color: #fff;
+}
+
+.btn-remove {
+    background: #c04b3f;
+    color: white;
+}
+
+.btn-details:hover {
+    background: #1e2d52;
+}
+
+.btn-remove:hover {
+    background: #a92012;
+}
+
+.btn-read {
+    background: #27763d;
+    color: white;
+}
+
+.btn-read:hover {
+    background: #1e5c30;
+}
+
+.purchases-table tbody tr:hover {
+    background-color: #f9fbff;
+}
