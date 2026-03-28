@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/public-layout.html}">
+<head>
+    <title>My Books</title>
+    <link rel="stylesheet" th:href="@{/my-books.css}">
+</head>
+<body>
+<!-- start fragment here -->
+<div layout:fragment="content">
+    <h1 class="page-title">Books Purchased</h1>
+
+    <div class="search-section">
+        <input type="text"
+               id="bookSearch"
+               placeholder="Search by title, author, genre, or order #..."
+        >
+    </div>
+
+    <div class="table-container">
+        <table class="purchases-table" th:if="${!#lists.isEmpty(purchases)}">
+            <thead>
+            <tr>
+                <th>Book</th>
+                <th>Details</th>
+                <th>Order #</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="purchase : ${purchases}">
+                <td class="col-cover">
+                    <img class="table-book-cover"
+                         th:src="${purchase.book.coverImageUrl.startsWith('/uploads/books')
+                                         ? 'http://localhost:5000' + purchase.book.coverImageUrl
+                                         : purchase.book.coverImageUrl}"
+                         th:alt="${purchase.book.title}"/>
+                </td>
+                <td class="col-info">
+                    <div class="table-book-title" th:text="${purchase.book.title}">Title</div>
+                    <a th:href="@{'/authors/' + ${purchase.book.authorId}}">
+                        <div class="table-book-author" th:text="${purchase.book.authorName}">Author</div>
+                    </a>
+                    <div class="table-book-genre" th:text="${purchase.book.genre}">Genre</div>
+                </td>
+                <td class="col-order" th:text="${purchase.orderId}">#000</td>
+                <td class="col-price" th:text="'$' + ${#numbers.formatDecimal(purchase.book.price, 1, 2)}">$0.00</td>
+                <td class="col-qty">
+                    <span class="qty-badge" th:text="${purchase.purchaseQuantity}">1</span>
+                </td>
+                <td class="col-btns">
+                    <div class="table-buttons">
+                        <a th:href="@{'/books/' + ${purchase.book.id}}" class="btn btn-details">Details</a>
+
+                        <button class="btn btn-read">Read</button>
+                        <button class="btn btn-remove"
+                                th:data-book-id="${purchase.book.id}"
+                                th:data-order-id="${purchase.orderId}"
+                                th:data-quantity="${purchase.purchaseQuantity}"
+                        >
+                            Return
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div style="text-align: center" th:if="${#lists.isEmpty(purchases)}">
+            <p>No purchases found. Time to go shopping!</p>
+            <a th:href="@{/}" class="btn btn-details" style="display:inline-block; width:auto;">Browse Books</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Handle Search
+        const searchInput = document.getElementById("bookSearch");
+        const tableRows = document.querySelectorAll(".purchases-table tbody tr");
+
+        searchInput.addEventListener("input", (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const title = row.querySelector(".table-book-title").textContent.toLowerCase();
+                const author = row.querySelector(".table-book-author").textContent.toLowerCase();
+                const genre = row.querySelector(".table-book-genre").textContent.toLowerCase();
+                const orderId = row.querySelector(".col-order").textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || author.includes(searchTerm) || genre.includes(searchTerm) || orderId.includes(searchTerm)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+
+        // Handle Return Click
+        document.addEventListener("click", (e) => {
+            if (e.target.classList.contains("btn-remove")) {
+                const btn = e.target;
+                const data = {
+                    bookId: btn.getAttribute("data-book-id"),
+                    orderId: btn.getAttribute("data-order-id"),
+                };
+
+                if (confirm("Are you sure you want to return this book?")) {
+                    sendReturnRequest(data, btn);
+                }
+            }
+        });
+
+        async function sendReturnRequest(data, buttonElement) {
+            try {
+                const response = await fetch('/purchases/returns', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Return processed successfully!");
+                    window.location.href="/purchases"
+                } else {
+                    alert("Failed to process return. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred while connecting to the server.");
+            }
+        }
+    });
+</script>

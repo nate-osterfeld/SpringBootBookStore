@@ -24,7 +24,6 @@ public class BooksPageController {
         List<Book> books = booksClient.getBooks();
         model.addAttribute("books", books);
         return "books";
-
     }
 
     @GetMapping("/books/{id}")

@@ -174,3 +174,9 @@ body {
     transition: background 0.2s, opacity 0.2s;
     flex: 1;
 }
+
+.btn-disabled {
+    background-color: #5a6c8f;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

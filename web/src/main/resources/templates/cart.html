@@ -55,7 +55,11 @@
 
         <div class="cart-footer">
             <button class="btn continue">Continue Shopping</button>
-            <button class="btn checkout">Checkout</button>
+            <button class="btn checkout"
+                    th:disabled="${#lists.isEmpty(cartItems)}"
+                    th:classappend="${#lists.isEmpty(cartItems)} ? 'btn-disabled' : ''">
+                Checkout
+            </button>
         </div>
     </div>
 </div>
@@ -159,7 +163,7 @@
 
             if (response.ok) {
                 alert("Order placed successfully!");
-                window.location.href = "/";
+                window.location.href = "/purchases";
             } else {
                 // Display message field from MVC GlobalExceptionHandler JSON (check if object or string)
                 const errorData = await response.json();

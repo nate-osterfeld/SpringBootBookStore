@@ -10,6 +10,13 @@
         <div layout:fragment="content">
             <h1 class="page-title">Books</h1>
 
+            <div class="search-section">
+                <input type="text"
+                       id="bookSearch"
+                       placeholder="Search by title, author, or genre..."
+                >
+            </div>
+
             <div class="book-grid">
                 <div class="book-card" th:each="book : ${books}">
 
@@ -54,6 +61,7 @@
 </html>
 
 <script>
+    // Handle add-to-cart
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async (e) => {
             const bookId = button.getAttribute('data-id');
@@ -83,6 +91,32 @@
                     alert("Must be logged in to complete this action!")
                 }
             }
+        });
+    });
+
+    // Handle Search
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("bookSearch");
+
+        // Select all the cards
+        const bookCards = document.querySelectorAll(".book-card");
+
+        searchInput.addEventListener("input", (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            bookCards.forEach(card => {
+                // Pull text from the specific elements inside the card
+                const title = card.querySelector(".book-title").textContent.toLowerCase();
+                const author = card.querySelector(".book-author").textContent.toLowerCase();
+                const genre = card.querySelector(".book-genre").textContent.toLowerCase();
+
+                // If any of them match the search term, show the card
+                if (title.includes(searchTerm) || author.includes(searchTerm) || genre.includes(searchTerm)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
         });
     });
 </script>
