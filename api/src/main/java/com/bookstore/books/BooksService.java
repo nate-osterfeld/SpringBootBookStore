@@ -41,10 +41,15 @@ public class BooksService implements IBooksService {
     }
 
     @Override
-    public void createBook(BookDto bookdto, MultipartFile imageFile) throws IOException {
+    public void createBook(BookDto bookdto, MultipartFile imageFile, MultipartFile pdfFile) throws IOException {
         String uploadedUrl = fileUploadService.saveUploadedFile(imageFile, "books");
         if (uploadedUrl != null) {
             bookdto.setCoverImageUrl(uploadedUrl);
+        }
+
+        String pdfPath = fileUploadService.saveToGcp(pdfFile, "pdf-content");
+        if (pdfPath != null) {
+            bookdto.setPdfPath(pdfPath);
         }
 
         var book = convertToBook(bookdto, new Book());
@@ -52,7 +57,7 @@ public class BooksService implements IBooksService {
     }
 
     @Override
-    public Boolean updateBook(Long id, BookDto bookDto, MultipartFile imageFile) throws IOException {
+    public Boolean updateBook(Long id, BookDto bookDto, MultipartFile imageFile, MultipartFile pdfFile) throws IOException {
         Optional<Author> a = authorsRepository.findById(bookDto.getAuthorId());
         Optional<Book> b = booksRepository.findById(id);
 
@@ -63,6 +68,11 @@ public class BooksService implements IBooksService {
             bookDto.setCoverImageUrl(uploadedUrl);
         } else {
             bookDto.setCoverImageUrl(b.get().getCoverImageUrl());
+        }
+
+        String pdfPath = fileUploadService.saveToGcp(pdfFile, "pdf-content");
+        if (pdfPath != null) {
+            bookDto.setPdfPath(pdfPath);
         }
 
         var book = convertToBook(bookDto, b.get());
@@ -117,6 +127,7 @@ public class BooksService implements IBooksService {
         book.setPrice(bookDto.getPrice());
         book.setQuantity(bookDto.getQuantity());
         book.setCoverImageUrl(bookDto.getCoverImageUrl());
+        book.setPdfPath(bookDto.getPdfPath());
         book.setAuthor(author);
 
         return book;

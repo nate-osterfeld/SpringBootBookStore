@@ -92,6 +92,7 @@ public class PurchasesService implements IPurchasesService{
         bookDto.setPrice(book.getPrice());
         bookDto.setQuantity(book.getQuantity());
         bookDto.setCoverImageUrl(book.getCoverImageUrl());
+        bookDto.setPdfPath(book.getPdfPath());
 
         Author author = book.getAuthor();
         if (author != null) {

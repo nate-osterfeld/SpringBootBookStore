@@ -54,7 +54,12 @@
                     <div class="table-buttons">
                         <a th:href="@{'/books/' + ${purchase.book.id}}" class="btn btn-details">Details</a>
 
-                        <button class="btn btn-read">Read</button>
+<!--                        <button class="btn btn-read">Read</button>-->
+                        <a th:href="'https://storage.googleapis.com/bookstore-content/' + ${purchase.book.pdfPath}"
+                           target="_blank"
+                           class="btn btn-read">
+                            Read
+                        </a>
                         <button class="btn btn-remove"
                                 th:data-book-id="${purchase.book.id}"
                                 th:data-order-id="${purchase.orderId}"
