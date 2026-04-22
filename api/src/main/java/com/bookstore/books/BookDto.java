@@ -10,6 +10,7 @@ public class BookDto {
     public BigDecimal price;
     public Integer quantity;
     public String coverImageUrl;
+    public String pdfPath;
     public Long authorId;
     public String authorName;
 
@@ -68,6 +69,10 @@ public class BookDto {
     public void setCoverImageUrl(String coverImageUrl) {
         this.coverImageUrl = coverImageUrl;
     }
+
+    public String getPdfPath() { return pdfPath; }
+
+    public void setPdfPath(String pdfPath) { this.pdfPath = pdfPath; }
 
     public Long getAuthorId() {
         return authorId;

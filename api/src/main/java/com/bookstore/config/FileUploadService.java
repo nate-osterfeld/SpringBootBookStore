@@ -1,13 +1,23 @@
 package com.bookstore.config;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Centralized service for handling file uploads across the application.
@@ -16,6 +26,46 @@ import java.util.UUID;
  */
 @Service
 public class FileUploadService {
+
+    @Value("${gcp.bucket-name}")
+    private String bucketName;
+
+    @Value("${gcp.credentials.location}")
+    private String credentialsPath;
+
+    private final Storage storage = StorageOptions.getDefaultInstance().getService();
+
+    public String saveToGcp(MultipartFile file, String folder) throws IOException {
+        File keyFile = new File(credentialsPath);
+
+        // Check if the file exists before trying to open the stream
+        if (!keyFile.exists()) {
+            System.err.println("CRITICAL: GCP JSON key not found at: " + credentialsPath);
+            throw new IOException("GCP Credentials missing. Upload disabled for this environment.");
+        }
+
+        GoogleCredentials credentials = GoogleCredentials.fromStream(
+                new FileInputStream(credentialsPath)
+        );
+
+        Storage storage = StorageOptions.newBuilder()
+                .setCredentials(credentials)
+                .build()
+                .getService();
+
+        String fileName = folder + "/" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+        BlobId blobId = BlobId.of(bucketName, fileName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                .setContentType(file.getContentType())
+                // This makes the file public immediately upon upload
+//                .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+                .build();
+
+        storage.create(blobInfo, file.getBytes());
+
+        return fileName;
+    }
 
     /**
      * Saves an uploaded file to the specified subdirectory under the uploads folder.

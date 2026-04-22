@@ -44,11 +44,12 @@ public class AdminBooksController {
     @PostMapping("/add-book")
     public String addBook(
         @ModelAttribute Book book,
-        @RequestParam("coverImage") MultipartFile imageFile) throws IOException {
+        @RequestParam("coverImage") MultipartFile imageFile,
+        @RequestParam("bookPdf") MultipartFile pdfFile) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String bookJson = mapper.writeValueAsString(book);
 
-        booksAdminClient.createBook(bookJson, imageFile);
+        booksAdminClient.createBook(bookJson, imageFile, pdfFile);
 
         return "redirect:/admin/books";
     }
@@ -67,11 +68,12 @@ public class AdminBooksController {
     public String editAuthor(
         @PathVariable Long id,
         @ModelAttribute Book book,
-        @RequestParam("coverImage") MultipartFile imageFile) throws IOException {
+        @RequestParam("coverImage") MultipartFile imageFile,
+        @RequestParam("bookPdf") MultipartFile pdfFile) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        String authorJson = mapper.writeValueAsString(book);
+        String bookJson = mapper.writeValueAsString(book);
 
-        booksAdminClient.editBook(id, authorJson, imageFile);
+        booksAdminClient.editBook(id, bookJson, imageFile, pdfFile);
 
         return "redirect:/admin/books";
     }
