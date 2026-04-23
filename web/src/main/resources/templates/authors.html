@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/public-layout.html}">
+    <head>
+        <title>Authors</title>
+        <link rel="stylesheet" th:href="@{/authors.css}">
+    </head>
+    <body>
+        <!-- start fragment here -->
+        <div layout:fragment="content">
+            <h1 class="page-title">Authors</h1>
+
+            <div class="author-grid">
+                <div class="author-card" th:each="author : ${authors}">
+
+                    <a th:href="@{'/authors/' + ${author.id}}">
+                        <img class="author-photo"
+                             th:src="${author.authorImageUrl.startsWith('/uploads/authors')
+                                 ? 'http://localhost:5000' + author.authorImageUrl
+                                 : author.authorImageUrl}"
+                             th:alt="${author.name}"/>
+                    </a>
+
+                    <div class="author-info">
+                        <h3 class="author-name">
+                            <a th:href="@{'/authors/' + ${author.id}}" th:text="${author.name}">Name</a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-state" th:if="${#lists.isEmpty(authors)}">
+                <p>No authors found.</p>
+            </div>
+        </div>
+    </body>
+</html>
