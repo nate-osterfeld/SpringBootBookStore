@@ -18,11 +18,12 @@ public class Book {
     private BigDecimal price;
     private Integer quantity;
     private String coverImageUrl;
+    private String pdfPath;
     @JsonIgnore // ignore "author" on json return (infinite recursion)
     @ManyToOne
     private Author author;
 
-    public Book(Long id, String title, Author author, String description, String genre, BigDecimal price, Integer quantity, String coverImageUrl) {
+    public Book(Long id, String title, Author author, String description, String genre, BigDecimal price, Integer quantity, String coverImageUrl, String pdfPath) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -31,6 +32,7 @@ public class Book {
         this.price = price;
         this.quantity = quantity;
         this.coverImageUrl = coverImageUrl;
+        this.pdfPath = pdfPath;
     }
 
     public Book() {
@@ -95,6 +97,14 @@ public class Book {
 
     public void setCoverImageUrl(String coverImageUrl) {
         this.coverImageUrl = coverImageUrl;
+    }
+
+    public String getPdfPath() {
+        return pdfPath;
+    }
+
+    public void setPdfPath(String pdfPath) {
+        this.pdfPath = pdfPath;
     }
 
 }

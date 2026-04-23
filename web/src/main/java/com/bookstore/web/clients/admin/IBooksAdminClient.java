@@ -25,7 +25,8 @@ public interface IBooksAdminClient {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     String createBook(
         @RequestPart("book") String bookJson,
-        @RequestPart("coverImage") MultipartFile file
+        @RequestPart("coverImage") MultipartFile imageFile,
+        @RequestPart("bookPdf") MultipartFile pdfFile
     );
 
     @DeleteMapping("/{id}")
@@ -35,6 +36,7 @@ public interface IBooksAdminClient {
     String editBook(
         @PathVariable Long id,
         @RequestPart("book") String bookJson,
-        @RequestPart("coverImage") MultipartFile file
+        @RequestPart("coverImage") MultipartFile imageFile,
+        @RequestPart("bookPdf") MultipartFile pdfFile
     );
 }

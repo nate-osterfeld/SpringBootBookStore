@@ -8,7 +8,7 @@ import java.util.List;
 public interface IBooksService {
     List<BookDto> findAll();
     BookDto getBookById(Long id);
-    void createBook(BookDto book, MultipartFile imageFile) throws IOException;
-    Boolean updateBook(Long id, BookDto bookDto, MultipartFile imageFile) throws IOException;
+    void createBook(BookDto book, MultipartFile imageFile, MultipartFile pdfFile) throws IOException;
+    Boolean updateBook(Long id, BookDto bookDto, MultipartFile imageFile, MultipartFile pdfFile) throws IOException;
     Boolean deleteBook(Long id);
 }
