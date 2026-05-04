@@ -1,6 +1,9 @@
 # GCP Service Account Key
 springbootbookstore-f853687c84c0.json
 
+# Environment Variables
+.env
+
 # Compiled class file
 *.class
 
