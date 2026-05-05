@@ -14,7 +14,7 @@
 
     <img th:if="${author.authorImageUrl != null}"
          th:src="${author.authorImageUrl.startsWith('/uploads/authors')
-                 ? 'http://localhost:5000' + author.authorImageUrl
+                 ? apiBaseUrl + author.authorImageUrl
                  : author.authorImageUrl}"
          alt="Author photo"/>
 

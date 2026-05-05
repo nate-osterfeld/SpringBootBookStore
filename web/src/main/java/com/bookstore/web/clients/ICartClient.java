@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name="CART-SERVICE", url="http://localhost:5000/api/cart")
+@FeignClient(name="CART-SERVICE", url="${api.base.url}/api/cart")
 public interface ICartClient {
     @GetMapping
     List<CartItem> getCartItems();

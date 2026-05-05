@@ -34,7 +34,7 @@
                         <tr th:each="author : ${authors}">
                             <td class="photo-cell">
                                 <img th:src="${author.authorImageUrl.startsWith('/uploads/authors')
-                                                 ? 'http://localhost:5000' + author.authorImageUrl
+                                                 ? apiBaseUrl + author.authorImageUrl
                                                  : author.authorImageUrl}"
                                      alt="Author Image" />
                             </td>

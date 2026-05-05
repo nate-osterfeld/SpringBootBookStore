@@ -19,7 +19,7 @@
 
             <img class="book-img"
                  th:src="${item.getBook().coverImageUrl.startsWith('/uploads/books')
-                     ? 'http://localhost:5000' + item.getBook().getCoverImageUrl()
+                     ? apiBaseUrl + item.getBook().getCoverImageUrl()
                      : item.getBook().getCoverImageUrl()}"
                  th:alt="${item.getBook().getTitle()}"/>
 

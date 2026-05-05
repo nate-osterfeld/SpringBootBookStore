@@ -9,6 +9,8 @@
     <body>
         <!-- start fragment here -->
         <div layout:fragment="content">
+            <input type="hidden" id="apiBaseUrl" th:value="${apiBaseUrl}">
+
             <div class="container">
                 <div class="login-card">
                     <h2>Sign In</h2>
@@ -41,8 +43,10 @@
     document.getElementById("loginForm").addEventListener("submit", async function(e) {
         e.preventDefault();
 
+        const apiBaseUrl = document.getElementById("apiBaseUrl").value;
+
         // Login via fetch req so cookies sent back can be set in browser
-        const response = await fetch("http://localhost:5000/api/auth/login", {
+        const response = await fetch(`${apiBaseUrl}/api/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

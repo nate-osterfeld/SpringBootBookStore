@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
     <body>
+        <input type="hidden" id="apiBaseUrl" th:value="${apiBaseUrl}">
         <div class="banner">
             <h1 class="title"><a href="/">Book Store</a></h1>
 
@@ -49,11 +50,14 @@
         // Display cart count
         const cartBadge = document.getElementById("cart-count");
 
+        const apiBaseUrl = document.getElementById("apiBaseUrl").value;
+
         try {
-            const response = await fetch("http://localhost:5000/api/cart/count", {
+            const response = await fetch(`${apiBaseUrl}/api/cart/count`, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 credentials: "include"
             });

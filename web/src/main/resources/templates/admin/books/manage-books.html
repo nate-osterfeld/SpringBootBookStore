@@ -36,7 +36,7 @@
                         <tr th:each="book : ${books}">
                             <td class="cover-cell">
                                 <img th:src="${book.coverImageUrl.startsWith('/uploads/books')
-                                                 ? 'http://localhost:5000' + book.coverImageUrl
+                                                 ? apiBaseUrl + book.coverImageUrl
                                                  : book.coverImageUrl}"
                                      alt="Book Cover Image" />
                             </td>

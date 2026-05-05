@@ -8,6 +8,8 @@
     <body>
         <!-- start fragment here -->
         <div layout:fragment="content">
+            <input type="hidden" id="apiBaseUrl" th:value="${apiBaseUrl}">
+
             <h1 class="page-title">Books</h1>
 
             <div class="search-section">
@@ -23,7 +25,7 @@
                     <a th:href="@{'/books/' + ${book.id}}">
                         <img class="book-cover"
                              th:src="${book.coverImageUrl.startsWith('/uploads/books')
-                                 ? 'http://localhost:5000' + book.coverImageUrl
+                                 ? apiBaseUrl + book.coverImageUrl
                                  : book.coverImageUrl}"
                              th:alt="${book.title}"/>
                     </a>
@@ -64,11 +66,13 @@
     // Handle add-to-cart
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async (e) => {
+            const apiBaseUrl = document.getElementById("apiBaseUrl").value;
+            const token = localStorage.getItem("jwt");
             const bookId = button.getAttribute('data-id');
 
-            const response = await fetch("http://localhost:5000/api/cart", {
+            const response = await fetch(`${apiBaseUrl}/api/cart`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 credentials: "include",
                 body: JSON.stringify({ bookId: bookId, quantity: 1, mode: "add" })
             });

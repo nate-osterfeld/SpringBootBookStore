@@ -40,7 +40,7 @@
                         <img
                             id="authorPreview"
                             th:src="${author.authorImageUrl.startsWith('/uploads/authors')
-                                 ? 'http://localhost:5000' + author.authorImageUrl
+                                 ? apiBaseUrl + author.authorImageUrl
                                  : author.authorImageUrl}"
                              alt="Author Image" />
                         <label for="authorImage">Author Image</label>

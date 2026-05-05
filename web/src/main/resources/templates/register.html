@@ -8,6 +8,7 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <input type="hidden" id="apiBaseUrl" th:value="${apiBaseUrl}">
     <div class="container">
         <div class="register-card">
             <h2>Create account</h2>
@@ -68,7 +69,9 @@
             return;
         }
 
-        const response = await fetch("http://localhost:5000/api/auth/register", {
+        const apiBaseUrl = document.getElementById("apiBaseUrl").value;
+
+        const response = await fetch(`${apiBaseUrl}/api/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

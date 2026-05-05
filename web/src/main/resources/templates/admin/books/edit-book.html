@@ -100,7 +100,7 @@
                                     <img
                                         id="bookPreview"
                                         th:src="${book.coverImageUrl.startsWith('/uploads/books')
-                                             ? 'http://localhost:5000' + book.coverImageUrl
+                                             ? apiBaseUrl + book.coverImageUrl
                                              : book.coverImageUrl}"
                                         alt="Cover Image" />
                                     <label for="coverImage">Cover Image</label>

@@ -16,7 +16,7 @@
                     <a th:href="@{'/authors/' + ${author.id}}">
                         <img class="author-photo"
                              th:src="${author.authorImageUrl.startsWith('/uploads/authors')
-                                 ? 'http://localhost:5000' + author.authorImageUrl
+                                 ? apiBaseUrl + author.authorImageUrl
                                  : author.authorImageUrl}"
                              th:alt="${author.name}"/>
                     </a>

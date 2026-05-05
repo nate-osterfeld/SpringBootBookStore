@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name="BOOKS-SERVICE", url="http://localhost:5000/api/books")
+@FeignClient(name="BOOKS-SERVICE", url="${api.base.url}/api/books")
 public interface IBooksClient {
     @GetMapping
     List<Book> getBooks();

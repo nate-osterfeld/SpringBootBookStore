@@ -8,7 +8,7 @@ import java.util.List;
 
 @FeignClient(
         name = "AUTHORS-PUBLIC-SERVICE",
-        url = "http://localhost:5000/api/authors"
+        url = "${api.base.url}/api/authors"
 )
 public interface IAuthorsClient {
 

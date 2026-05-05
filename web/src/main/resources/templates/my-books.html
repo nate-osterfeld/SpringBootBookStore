@@ -34,7 +34,7 @@
                 <td class="col-cover">
                     <img class="table-book-cover"
                          th:src="${purchase.book.coverImageUrl.startsWith('/uploads/books')
-                                         ? 'http://localhost:5000' + purchase.book.coverImageUrl
+                                         ? apiBaseUrl + purchase.book.coverImageUrl
                                          : purchase.book.coverImageUrl}"
                          th:alt="${purchase.book.title}"/>
                 </td>

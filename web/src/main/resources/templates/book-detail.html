@@ -7,10 +7,11 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <input type="hidden" id="apiBaseUrl" th:value="${apiBaseUrl}">
     <div class="book-detail">
         <img th:if="${book.coverImageUrl != null}"
              th:src="${book.coverImageUrl.startsWith('/uploads/books')
-                     ? 'http://localhost:5000' + book.coverImageUrl
+                     ? apiBaseUrl + book.coverImageUrl
                      : book.coverImageUrl}"
              alt="Book cover"/>
 
@@ -51,10 +52,12 @@
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', async (e) => {
             const bookId = button.getAttribute('data-id');
+            const token = localStorage.getItem("jwt");
+            const apiBaseUrl = document.getElementById("apiBaseUrl").value;
 
-            const response = await fetch("http://localhost:5000/api/cart", {
+            const response = await fetch(`${apiBaseUrl}/api/cart`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 credentials: "include",
                 body: JSON.stringify({ bookId: bookId, quantity: 1, mode: "add" })
             });

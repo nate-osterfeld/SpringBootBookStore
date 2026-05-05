@@ -12,7 +12,7 @@ import java.util.List;
 @FeignClient(
         name="BOOKS-SERVICE",
         contextId="booksAdminClient",
-        url="http://localhost:5000/api/books",
+        url="${api.base.url}/api/books",
         configuration = FeignMultipartConfig.class
 )
 public interface IBooksAdminClient {
