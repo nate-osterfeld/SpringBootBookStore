@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
-public class FeignCookieInterceptor implements RequestInterceptor {
+public class FeignInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
@@ -18,19 +18,22 @@ public class FeignCookieInterceptor implements RequestInterceptor {
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
 
-            // Get cookies from request (sessionId, jwt)
-            Cookie[] cookies = request.getCookies();
+            String token = (String) request.getSession().getAttribute("jwt");
 
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    // Grab token string from jwt key
-                    if ("jwt".equals(cookie.getName())) {
-                        String token = cookie.getValue();
-
-                        // Add token to Authorization header to match JwtFilter's expectations
-                        template.header("Authorization", "Bearer " + token);
+            if (token == null || token.isEmpty()) {
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if ("jwt".equals(cookie.getName())) {
+                            token = cookie.getValue();
+                            break;
+                        }
                     }
                 }
+            }
+
+            if (token != null && token.contains(".")) {
+                template.header("Authorization", "Bearer " + token);
             }
         }
     }
